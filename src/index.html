@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Круиз</title>
+      <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+  <header>
+      <nav>
+          <ul>
+              <img class="navbar_logo" alt="Logo" src="img/logo.png">
+              <li><a href="#">ГЛАВНАЯ</a></li>
+              <li><a href="#section1" onclick="scrollToSection(event)">О НАС</a></li>
+              <li><a href="#section2" onclick="scrollToSection(event)">КРУИЗЫ</a></li>
+              <li><a href="#section3" onclick="scrollToSection(event)">СПЕЦПРЕДЛОЖЕНИЯ</a></li>
+              <li><a href="#section4" onclick="scrollToSection(event)">НОВОСТИ</a></li>
+              <li><a href="#section5" onclick="scrollToSection(event)">КОНТАКТЫ</a></li>
+
+              <div class="icon_nav">
+                  <!--  ИКОНКА "ПОИСК"-->
+                  <svg   class = "icon_nav_search" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M10.8889 19.4173C15.7981 19.4173 19.7778 15.4376 19.7778 10.5284C19.7778 5.61922 15.7981 1.63953 10.8889 1.63953C5.97969 1.63953 2 5.61922 2 10.5284C2 15.4376 5.97969 19.4173 10.8889 19.4173Z" stroke="#5D5A88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M22.0003 21.6395L17.167 16.8062" stroke="#274da7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+
+                  <!--  ИКОНКА "ПОЛЬЗОВАТЕЛЬ"-->
+                  <svg class = "icon_nav_user" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M3.25 22V20.75C3.25 19.6009 3.47633 18.4631 3.91605 17.4015C4.35578 16.3399 5.0003 15.3753 5.81282 14.5628C6.62533 13.7503 7.58992 13.1058 8.65152 12.6661C9.71312 12.2263 10.8509 12 12 12C13.1491 12 14.2869 12.2263 15.3485 12.6661C16.4101 13.1058 17.3747 13.7503 18.1872 14.5628C18.9997 15.3753 19.6442 16.3399 20.0839 17.4015C20.5237 18.4631 20.75 19.6009 20.75 20.75V22" stroke="#5D5A88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M12 12C13.3261 12 14.5979 11.4732 15.5355 10.5355C16.4732 9.59785 17 8.32608 17 7C17 5.67392 16.4732 4.40215 15.5355 3.46447C14.5979 2.52678 13.3261 2 12 2C10.6739 2 9.40215 2.52678 8.46447 3.46447C7.52678 4.40215 7 5.67392 7 7C7 8.32608 7.52678 9.59785 8.46447 10.5355C9.40215 11.4732 10.6739 12 12 12V12Z" stroke="#274da7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+              </div>
+          </ul>
+      </nav>
+  </header>
+  <script src="main.js"></script>
+  <script src="https://unpkg.com/vue@next"></script>
+  </body>
+</html>
