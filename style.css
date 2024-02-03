@@ -6,27 +6,32 @@ html, body {
     height: 100%;
     font-family: 'DM Sans', sans-serif;
     margin: 0;
+    padding: 0;
 }
 
 /* ШАПКА */
 header {
     font-size: 14px;
     background-color: #ffffff;
-    padding: 16px;
-    margin-left: 5%;  /* Отступ слева 5% от ширины экрана */
-    margin-right: 5%;  /* Отступ справа 5% от ширины экрана */
+    padding-right: 16px;
+    padding-left: 16px;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    width: 100%;
 
-    /* Добавляем медиа-запрос для адаптивности */
     @media (max-width: 768px) {
-        margin-left: 2%;  /* При маленьких экранах уменьшаем отступ слева */
-        margin-right: 2%;  /* При маленьких экранах уменьшаем отступ справа */
+        margin-left: 2%;
+        margin-right: 2%;
     }
 }
+
 
 nav ul {
     list-style: none;
     display: flex;
-    padding: 0;
+    padding-left: 32px;
+    padding-right: 32px;
     align-items: center;
 }
 
@@ -77,6 +82,7 @@ nav ul li a:hover {
 .icon_nav_search{
     padding-left: 24px;
 }
+
 
 /* БЛОК 1*/
 .container_1 {
