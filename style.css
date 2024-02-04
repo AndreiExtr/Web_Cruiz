@@ -13,7 +13,6 @@ html, body {
 header {
     font-size: 14px;
     background-color: #ffffff;
-    padding-right: 16px;
     position: fixed;
     z-index: 2;
     top: 0;
@@ -29,8 +28,8 @@ header {
 nav ul {
     list-style: none;
     display: flex;
-    padding-left: 32px;
-    padding-right: 32px;
+    padding-left: 48px;
+    padding-right: 48px;
     align-items: center;
 }
 
@@ -118,7 +117,7 @@ nav ul li a:hover {
     position: absolute;
     font-weight: normal;
     text-align: left;
-    padding-left: 32px;
+    padding-left: 48px;
     top: 30%;
     left: 0;
     color: #fff; /* Цвет текста */
