@@ -1,6 +1,5 @@
-import '@/assets/main.css'
 
-import { createApp } from 'vue'
-import App from '@/components/App.vue'
+import { createModal } from 'vue';
+import Modal from './src/components/Modal.vue';
 
-createApp(App).mount('#app')
+createModal(Modal).mount('#modal');
