@@ -14,7 +14,6 @@ header {
     font-size: 14px;
     background-color: #ffffff;
     padding-right: 16px;
-    padding-left: 16px;
     position: fixed;
     z-index: 2;
     top: 0;
@@ -111,4 +110,38 @@ nav ul li a:hover {
     height: 100%;
     object-fit: cover;
     z-index: 0;
+}
+
+/* КНОПКА С ЗАГОЛОВКОМ */
+.title_button {
+
+    position: absolute;
+    font-weight: normal;
+    text-align: left;
+    padding-left: 32px;
+    top: 30%;
+    left: 0;
+    color: #fff; /* Цвет текста */
+    z-index: 2;
+}
+
+h1 {
+    font-weight: lighter; /* Изменение веса шрифта на жирный */
+    font-size: 64px; /* Размер шрифта для заголовка */
+    margin-bottom: 16px; /* Отступ снизу */
+}
+
+.select-cruise-button {
+    background-color: #333333; /* Цвет фона кнопки */
+    color: #fff; /* Цвет текста кнопки */
+    padding: 10px 20px; /* Отступы внутри кнопки */
+    font-size: 16px; /* Размер шрифта кнопки */
+    border: none; /* Убираем границу кнопки */
+    cursor: pointer;
+}
+.select-cruise-button:hover {
+    background-color: #274da7; /* Цвет фона кнопки */
+    font-size: 16px; /* Размер шрифта кнопки */
+    border: none; /* Убираем границу кнопки */
+    cursor: pointer;
 }
