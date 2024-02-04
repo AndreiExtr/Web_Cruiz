@@ -74,14 +74,19 @@ nav ul li a:hover {
 }
 .icon_nav_user{
     padding-left: 24px;
-    stroke: #274da7;
+    fill: #333333;
 }
 .icon_nav_user:hover{
-    stroke: #071433;
+    fill: #274da7;
 }
 .icon_nav_search{
     padding-left: 24px;
+    fill: #333333;
 }
+.icon_nav_search:hover{
+    fill: #274da7;
+}
+
 
 
 /* БЛОК 1*/
