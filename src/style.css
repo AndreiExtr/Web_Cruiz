@@ -90,8 +90,9 @@ nav ul li a:hover {
 /* БЛОК 1*/
 .container_1 {
     position: relative;
+    padding-top: 78px;
     width: 100%;
-    height: 100%;
+    height: 700px;
 }
 
 .overlay {
