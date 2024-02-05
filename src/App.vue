@@ -1,5 +1,4 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
@@ -29,7 +28,7 @@ import HelloWorld from './components/HelloWorld.vue'
     </nav>
   </header>
 
-  <!--  <div class="container_1">
+    <div class="container_1">
       <div class="title_button">
         <h1>Выберите свой <br> вариант путешествия</h1>
         <button  class="select-cruise-button" >Выбрать круиз</button>
@@ -38,5 +37,5 @@ import HelloWorld from './components/HelloWorld.vue'
 
       <div class="overlay"></div>
       <img src="/src/assets/1.jpg" alt="Background Image" class="background-image">
-    </div>-->
+    </div>
 </template>
