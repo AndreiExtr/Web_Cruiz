@@ -2,18 +2,54 @@
 export default {
   data() {
     return {
-      images: ["/src/assets/2.png", "/src/assets/2.png", "/src/assets/3.png"],
+      images: [
+        { src: "/src/assets/2.png", alt: "Image 1" },
+        { src: "/src/assets/2.png", alt: "Image 2" },
+        { src: "/src/assets/3.png", alt: "Image 3" },
+      ],
       currentIndex: 0,
+      slideWidth: 500,
     };
   },
+  mounted() {
+    this.calculateSlideWidth();
+    window.addEventListener('resize', this.calculateSlideWidth);
+    this.$nextTick(() => {
+      this.images.forEach(image => {
+        const img = new Image();
+        img.src = image.src;
+        img.onload = this.calculateSlideWidth;
+      });
+    });
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.calculateSlideWidth);
+  },
   methods: {
-    nextSlide() {
-      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+    calculateSlideWidth() {
+      this.slideWidth = this.$refs.slides.offsetWidth;
     },
     prevSlide() {
-      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
-    }
-  }
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+      } else {
+        this.currentIndex = this.images.length - 1;
+      }
+      this.slideTransition();
+    },
+    nextSlide() {
+      if (this.currentIndex < this.images.length - 1) {
+        this.currentIndex++;
+      } else {
+        this.currentIndex = 0;
+      }
+      this.slideTransition();
+    },
+    slideTransition() {
+      const offset = -this.slideWidth * this.currentIndex;
+      this.$refs.slides.style.transform = `translateX(${offset}px)`;
+    },
+  },
 };
 </script>
 
@@ -55,15 +91,10 @@ export default {
               </svg>
             </div>
           </div>
-          <div class="slides">
-            <div v-if="currentIndex === 0" class="slide" >
-              <img :src="images[0]" alt="Background Image" class="background-image">
-            </div>
-            <div v-else-if="currentIndex === 1" class="slide" >
-              <img :src="images[1]" alt="Background Image" class="background-image">
-            </div>
-            <div v-else class="slide">
-              <img :src="images[2]" alt="Background Image" class="background-image">
+
+          <div class="slides" ref="slides">
+            <div class="slide" v-for="(image, index) in images" :key="index">
+              <img :src="image.src" :alt="image.alt" class="background-image">
             </div>
           </div>
         </div>
@@ -78,17 +109,68 @@ export default {
 
 
 <style>
-.slider-container{
-  width: 500px;
-  padding: 64px 150px 64px 16px;
+
+/* Медиа-запрос для адаптивного разрешения */
+@media screen and (max-width: 1200px) {
+  .block {
+    flex-direction: column; /* Располагаем дочерние элементы в столбец при адаптивном разрешении */
+    align-items: center;
+  }
+
+  .text {
+    padding: 24px 16px; /* Уменьшаем внутренние отступы по горизонтали */
+    margin-right: 0 !important; /* Устанавливаем отступ справа равным нулю */
+  }
+
+  .slider-container{
+    padding: 0 16px; /* Уменьшаем внутренние отступы по горизонтали */
+  }
 
 }
+
+/* БЛОК 2*/
+.container_2 {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  box-sizing: border-box; /* Учитываем padding внутри ширины контейнера */
+}
+.block {
+  padding: 64px 150px  64px 150px ;
+  background-color: #f1f1f1;
+  display: flex; /* Располагаем дочерние элементы внутри .block горизонтально */
+  justify-content: space-between; /* Равномерно распределяем пространство между дочерними элементами */
+  flex-wrap: nowrap; /* Разрешаем элементам переноситься на новую строку при нехватке места */
+}
+.text{
+  margin-right: 64px;
+}
+.title{
+  font-weight: lighter;
+  font-size: 20px;
+  color: #333333;
+  text-transform: uppercase; /* Добавляем это свойство */
+}
+.content{
+  font-weight: lighter;
+  font-size: 16px;
+  color: #333333;
+}
+
+.slider-container{
+/*  width: 100%;*/
+  /*padding: 64px 150px 64px 64px;*/
+}
+
+
 .slider{
+  border-radius: 24px;
   position: relative;
   width: 500px;
   display: flex;
   justify-content: center; /* Выравнивание по центру по горизонтали */
-  align-items: flex-start;
+  overflow: hidden; /* Скрытие выходящих за границы слайдов */
+  box-shadow: 0 10px 30px rgba(102, 153, 183, 0.6); /* Добавляем тень */
 }
 .navigation {
   position: absolute;
@@ -96,43 +178,43 @@ export default {
   width: 300px;
   display: flex;
   justify-content: space-between;
-  padding: 8px 8px 16px 8px;
+  padding: 0 8px 8px 8px;
   z-index: 1;
 }
 
 .slides {
-  border-radius: 24px;
+  transition: transform 0.5s ease-in-out;
   height: 380px;
   position: relative;
   display: flex; /* Отображение слайдов в виде горизонтального ряда */
-  transition: transform 0.5s ease; /* Плавное переключение слайдов */
-  overflow: hidden; /* Скрытие выходящих за границы слайдов */
-  margin: 0 auto; /* Центрирование слайдера на странице */
+
 }
 
 .slide {
-  flex: 0 0 100%; /* Установка ширины слайда на 100% */
-  max-width: 100%; /* Максимальная ширина слайда равна ширине контейнера */
-  padding-right: 8px;
-  border-radius: 24px;
+  flex: 0 0 calc(100% - 32px); /* Устанавливаем ширину слайда с учетом отступа */
+  height: 300px; /* Убираем фиксированную высоту */
+  border-radius: 8px;
+  overflow: hidden; /* Обрезаем изображение по границам слайда */
+  padding: 16px 16px 16px 16px; /* Добавляем внутренний отступ для изображения */
 }
 
 .slide img {
   width: 100%;
-  height: 100%;
+  border-radius: 8px; /* Радиус скругления для изображения */
+  object-fit: cover; /* Растягиваем картинку на всю ширину и высоту, сохраняя пропорции */
 }
 
 
 .button-prev rect,
 .button-next rect{
-  fill-opacity: 0.3;
-  stroke: #fff;
+  fill-opacity: 0;
+  stroke: #333333;
   stroke-width: 2;
 }
 
 .button-next,
 .button-prev{
-  fill: white;
+  fill: #333333;
   cursor: pointer;
 }
 .button-svg:hover rect,
@@ -140,6 +222,7 @@ export default {
   fill: #274da7;
   stroke: #274da7;
 }
+
 
 </style>
 

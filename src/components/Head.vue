@@ -1,8 +1,21 @@
 <template>
   <header>
     <nav>
-      <ul>
-        <img class="navbar_logo" alt="Logo" src="/src/assets/logo.png">
+      <ul class="navbar">
+
+        <!--  ИКОНКА "БУРГЕР"-->
+<!--        <div class = "icon_burger">
+          <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#000000">
+            <path d="M3 8H21C21.2652 8 21.5196 7.89464 21.7071 7.70711C21.8946 7.51957 22 7.26522 22 7C22 6.73478 21.8946 6.48043 21.7071 6.29289C21.5196 6.10536 21.2652 6 21 6H3C2.73478 6 2.48043 6.10536 2.29289 6.29289C2.10536 6.48043 2 6.73478 2 7C2 7.26522 2.10536 7.51957 2.29289 7.70711C2.48043 7.89464 2.73478 8 3 8ZM21 16H3C2.73478 16 2.48043 16.1054 2.29289 16.2929C2.10536 16.4804 2 16.7348 2 17C2 17.2652 2.10536 17.5196 2.29289 17.7071C2.48043 17.8946 2.73478 18 3 18H21C21.2652 18 21.5196 17.8946 21.7071 17.7071C21.8946 17.5196 22 17.2652 22 17C22 16.7348 21.8946 16.4804 21.7071 16.2929C21.5196 16.1054 21.2652 16 21 16ZM21 11H3C2.73478 11 2.48043 11.1054 2.29289 11.2929C2.10536 11.4804 2 11.7348 2 12C2 12.2652 2.10536 12.5196 2.29289 12.7071C2.48043 12.8946 2.73478 13 3 13H21C21.2652 13 21.5196 12.8946 21.7071 12.7071C21.8946 12.5196 22 12.2652 22 12C22 11.7348 21.8946 11.4804 21.7071 11.2929C21.5196 11.1054 21.2652 11 21 11Z"/>
+          </svg>
+        </div>-->
+
+        <li class="icon_burger">
+          <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#000000">
+            <path d="M3 8H21C21.2652 8 21.5196 7.89464 21.7071 7.70711C21.8946 7.51957 22 7.26522 22 7C22 6.73478 21.8946 6.48043 21.7071 6.29289C21.5196 6.10536 21.2652 6 21 6H3C2.73478 6 2.48043 6.10536 2.29289 6.29289C2.10536 6.48043 2 6.73478 2 7C2 7.26522 2.10536 7.51957 2.29289 7.70711C2.48043 7.89464 2.73478 8 3 8ZM21 16H3C2.73478 16 2.48043 16.1054 2.29289 16.2929C2.10536 16.4804 2 16.7348 2 17C2 17.2652 2.10536 17.5196 2.29289 17.7071C2.48043 17.8946 2.73478 18 3 18H21C21.2652 18 21.5196 17.8946 21.7071 17.7071C21.8946 17.5196 22 17.2652 22 17C22 16.7348 21.8946 16.4804 21.7071 16.2929C21.5196 16.1054 21.2652 16 21 16ZM21 11H3C2.73478 11 2.48043 11.1054 2.29289 11.2929C2.10536 11.4804 2 11.7348 2 12C2 12.2652 2.10536 12.5196 2.29289 12.7071C2.48043 12.8946 2.73478 13 3 13H21C21.2652 13 21.5196 12.8946 21.7071 12.7071C21.8946 12.5196 22 12.2652 22 12C22 11.7348 21.8946 11.4804 21.7071 11.2929C21.5196 11.1054 21.2652 11 21 11Z"/>
+          </svg>
+        </li>
+        <div class="navbar_logo"><img alt="Logo" src="/src/assets/logo.png"></div>
         <li><a href="#">ГЛАВНАЯ</a></li>
         <li><a href="#section1" onclick="scrollToSection(event)">О НАС</a></li>
         <li><a href="#section2" onclick="scrollToSection(event)">КРУИЗЫ</a></li>
@@ -30,5 +43,118 @@
 </script>
 
 <style scoped>
+/* Медиа-запрос для адаптивного разрешения */
+@media screen and (max-width: 1000px) {
+
+  .navbar{
+    height: 54px;
+  }
+
+  .icon_burger {
+    display: block;
+    padding-right: 24px;
+    fill: #333333;
+  }
+
+  /* Убираем скрытие иконки бургера */
+  .navbar li:not(.icon_burger) {
+    display: none; /* Скрываем все пункты меню, кроме иконки бургера */
+  }
+
+  /*.navbar li:not(:last-child){
+    display: none; !* Скрываем все пункты меню*!
+  }*/
+}
+
+
+/* ШАПКА */
+header {
+  font-size: 14px;
+  background-color: #ffffff;
+  position: fixed;
+  z-index: 3;
+  top: 0;
+  width: 100%;
+
+}
+
+.navbar {
+  display: flex;
+  padding-left: 48px;
+  padding-right: 48px;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+}
+
+.navbar_logo {
+  width: 100px;
+  height: auto;
+  margin-right: auto; /* Размещаем логотип слева */
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+nav li{
+  padding-right: 24px;
+}
+
+.navbar_logo{
+  padding-right: 24px;
+}
+
+nav ul li a {
+  position: relative;  /* Добавлено для позиционирования псевдоэлемента относительно ссылки */
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease-in-out;
+}
+
+nav ul li a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #274da7;
+  transition: width 0.3s ease-in-out;
+}
+
+nav ul li a:hover::after {
+  width: 100%;  /* Увеличиваем ширину при наведении */
+}
+
+nav ul li a:hover {
+  color: #274da7;
+}
+
+.icon_burger {
+  display: none /* Скрываем иконку бургера по умолчанию */
+}
+
+
+.icon_nav{
+  margin-left: auto;
+}
+
+.icon_nav_user{
+  padding-left: 24px;
+  fill: #333333;
+}
+.icon_nav_user:hover{
+  fill: #274da7;
+}
+.icon_nav_search{
+  padding-left: 24px;
+  fill: #333333;
+}
+.icon_nav_search:hover{
+  fill: #274da7;
+}
 
 </style>
