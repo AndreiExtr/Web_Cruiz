@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Title",
-    "description": "Title",
+    "title": "Product API",
+    "description": "API для управления продуктами",
     "version": "1.0.0"
   },
   "host": "localhost:3000",
@@ -10,60 +10,107 @@
     "http"
   ],
   "paths": {
-    "/users": {
+    "/products": {
       "get": {
-        "summary": "Get all users",
+        "summary": "Получить список продуктов",
         "responses": {
           "200": {
-            "description": "Successful operation"
+            "description": "Список продуктов успешно получен"
           }
         }
       },
       "post": {
-        "summary": "Create a new user",
+        "summary": "Создать новый продукт",
         "responses": {
           "201": {
-            "description": "User created successfully"
+            "description": "Продукт успешно создан"
           }
         }
       }
     },
-    "/users/{id}": {
-      "put": {
-        "summary": "Update a user by ID",
+    "/products/{id}": {
+      "get": {
+        "summary": "Получить информацию о продукте по ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer",
-            "description": "ID of the user to update"
+            "description": "ID продукта"
           }
         ],
         "responses": {
           "200": {
-            "description": "User updated successfully"
+            "description": "Информация о продукте успешно получена"
           }
         }
       },
-      "delete": {
-        "summary": "Delete a user by ID",
+      "put": {
+        "summary": "Обновить информацию о продукте по ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer",
-            "description": "ID of the user to delete"
+            "description": "ID продукта"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация о продукте успешно обновлена"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удалить продукт по ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID продукта"
           }
         ],
         "responses": {
           "204": {
-            "description": "User deleted successfully"
+            "description": "Продукт успешно удалён"
           }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Уникальный идентификатор продукта"
+        },
+        "title": {
+          "type": "string",
+          "description": "Название продукта"
+        },
+        "count": {
+          "type": "integer",
+          "description": "Стоимость продукта"
+        },
+        "description": {
+          "type": "string",
+          "description": "Описание продукта"
+        },
+        "image": {
+          "type": "string",
+          "description": "URL изображения продукта"
+        },
+        "cruiseDate": {
+          "type": "string",
+          "description": "даты начало и окончание круиза"
         }
       }
     }
   }
 }
-

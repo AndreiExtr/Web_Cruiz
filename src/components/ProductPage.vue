@@ -1,9 +1,12 @@
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      isSticky: false,
+      products:[],
 
+      isSticky: false,
       images: [
         { src: "/src/assets/2.png", alt: "Image 1" },
         { src: "/src/assets/2.png", alt: "Image 2" },
@@ -14,6 +17,28 @@ export default {
     };
   },
   mounted() {
+
+    axios.get('http://localhost:3000/products')
+        .then(response => {
+          this.products = response.data;
+          const requests = this.products.map(product => {
+            return axios.get(`http://localhost:3000/products/${product.id}`);
+          });
+          axios.all(requests)
+              .then(axios.spread((...responses) => {
+                responses.forEach((response, index) => {
+                  this.products[index].details = response.data;
+                });
+              }))
+              .catch(error => {
+                console.error('Ошибка при получении информации о продуктах:', error);
+              });
+        })
+        .catch(error => {
+          console.error('Ошибка при загрузке продуктов:', error);
+        });
+
+
     this.calculateSlideWidth();
     window.addEventListener('scroll', this.handleScroll);
     window.addEventListener('resize', this.calculateSlideWidth);
@@ -92,8 +117,19 @@ export default {
       </ul>
     </nav>
   </header>
+  
   <div class="block_1">
-    <img src="/src/assets/6.jpg" alt="Background Image" class="background-image">
+    <div class="block0">
+      <div class="image">
+        <img src="/src/assets/6.jpg" alt="Background Image" class="background-imag">
+      </div>
+      <div class="image-grid">
+        <img src="/src/assets/2.png" alt="Background Image" class="background-image1">
+        <img src="/src/assets/2.png" alt="Background Image" class="background-image1">
+        <img src="/src/assets/2.png" alt="Background Image" class="background-image1">
+        <img src="/src/assets/2.png" alt="Background Image" class="background-image1">
+      </div>
+    </div>
   </div>
 
   <div class="block_2">
@@ -147,87 +183,25 @@ export default {
   </div>
 
   <div class="block_4">
-    <div class="block1">
+    <div class="block_5">
+      <h2 class="title">Похожие предложения</h2>
 
-      <h2 class="title">Горячие предложения</h2>
-
+      <!--   ШАБЛОН КАРТОЧКИ (выброчно похожие круизы от X до X)-->
       <div class="cards">
-        <div class="product-card">
-          <div class="img_badge">
-            <img src="/src/assets/image%201.png" alt="Product Image">
-            <!-- Бейджик со скидкой -->
-            <div class="discount-badge">
-              <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.65304 15.2002C6.9447 16.8263 0.522477 18.6563 0.490356 20.4297C0.458233 22.2032 6.80997 24.2645 7.45896 25.9153C8.10795 27.566 4.86074 33.4012 6.09204 34.6779C7.32333 35.9546 13.2723 32.9208 14.8984 33.6292C16.5246 34.3375 18.3545 40.7598 20.128 40.7919C21.9014 40.824 23.9628 34.4723 25.6135 33.8233C27.2642 33.1743 33.0994 36.4215 34.3761 35.1902C35.6529 33.9589 32.6191 28.0099 33.3274 26.3838C34.0358 24.7577 40.458 22.9277 40.4901 21.1542C40.5222 19.3808 34.1705 17.3195 33.5215 15.6687C32.8725 14.018 36.1197 8.18281 34.8884 6.90609C33.6571 5.62937 27.7082 8.66314 26.082 7.9548C24.4559 7.24646 22.6259 0.824237 20.8525 0.792114C19.0791 0.759992 17.0177 7.11174 15.367 7.76073C13.7162 8.40971 7.88105 5.1625 6.60434 6.39379C5.32762 7.62508 8.36138 13.574 7.65304 15.2002Z" />
-              </svg>
-              <span class="discount-text">10%</span>
-            </div>
+        <div class="product-card1" v-for="(product, index) in products.slice(4, 6)" :key="product.id">
+        <img :src="product.image" alt="Product Image">
+        <div class="info-right">
+          <div class="product-title-container">
+            <h3 class="product-title1">{{ product.title }}</h3>
+            <p class="cruise-date">{{ product.cruiseDate }}</p>
           </div>
-
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
-
+          <p class="product-price">от {{ product.count }} ₽/ чел.</p>
+          <p class="product-description">{{ product.description }}</p>
+          <router-link :to="'/product/' + product.id" class="btn-details">Выбрать каюту</router-link>
         </div>
-
-        <div class="product-card">
-
-          <div class="img_badge">
-            <img src="/src/assets/image%201.png" alt="Product Image">
-            <!-- Бейджик со скидкой -->
-            <div class="discount-badge">
-              <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.65304 15.2002C6.9447 16.8263 0.522477 18.6563 0.490356 20.4297C0.458233 22.2032 6.80997 24.2645 7.45896 25.9153C8.10795 27.566 4.86074 33.4012 6.09204 34.6779C7.32333 35.9546 13.2723 32.9208 14.8984 33.6292C16.5246 34.3375 18.3545 40.7598 20.128 40.7919C21.9014 40.824 23.9628 34.4723 25.6135 33.8233C27.2642 33.1743 33.0994 36.4215 34.3761 35.1902C35.6529 33.9589 32.6191 28.0099 33.3274 26.3838C34.0358 24.7577 40.458 22.9277 40.4901 21.1542C40.5222 19.3808 34.1705 17.3195 33.5215 15.6687C32.8725 14.018 36.1197 8.18281 34.8884 6.90609C33.6571 5.62937 27.7082 8.66314 26.082 7.9548C24.4559 7.24646 22.6259 0.824237 20.8525 0.792114C19.0791 0.759992 17.0177 7.11174 15.367 7.76073C13.7162 8.40971 7.88105 5.1625 6.60434 6.39379C5.32762 7.62508 8.36138 13.574 7.65304 15.2002Z" />
-              </svg>
-              <span class="discount-text">8%</span>
-            </div>
-          </div>
-
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
-        </div>
-
-        <div class="product-card">
-
-          <div class="img_badge">
-            <img src="/src/assets/image%201.png" alt="Product Image">
-            <!-- Бейджик со скидкой -->
-            <div class="discount-badge">
-              <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.65304 15.2002C6.9447 16.8263 0.522477 18.6563 0.490356 20.4297C0.458233 22.2032 6.80997 24.2645 7.45896 25.9153C8.10795 27.566 4.86074 33.4012 6.09204 34.6779C7.32333 35.9546 13.2723 32.9208 14.8984 33.6292C16.5246 34.3375 18.3545 40.7598 20.128 40.7919C21.9014 40.824 23.9628 34.4723 25.6135 33.8233C27.2642 33.1743 33.0994 36.4215 34.3761 35.1902C35.6529 33.9589 32.6191 28.0099 33.3274 26.3838C34.0358 24.7577 40.458 22.9277 40.4901 21.1542C40.5222 19.3808 34.1705 17.3195 33.5215 15.6687C32.8725 14.018 36.1197 8.18281 34.8884 6.90609C33.6571 5.62937 27.7082 8.66314 26.082 7.9548C24.4559 7.24646 22.6259 0.824237 20.8525 0.792114C19.0791 0.759992 17.0177 7.11174 15.367 7.76073C13.7162 8.40971 7.88105 5.1625 6.60434 6.39379C5.32762 7.62508 8.36138 13.574 7.65304 15.2002Z" />
-              </svg>
-              <span class="discount-text">15%</span>
-            </div>
-          </div>
-
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
-        </div>
-
-        <div class="product-card">
-
-          <div class="img_badge">
-            <img src="/src/assets/image%201.png" alt="Product Image">
-            <!-- Бейджик со скидкой -->
-            <div class="discount-badge">
-              <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.65304 15.2002C6.9447 16.8263 0.522477 18.6563 0.490356 20.4297C0.458233 22.2032 6.80997 24.2645 7.45896 25.9153C8.10795 27.566 4.86074 33.4012 6.09204 34.6779C7.32333 35.9546 13.2723 32.9208 14.8984 33.6292C16.5246 34.3375 18.3545 40.7598 20.128 40.7919C21.9014 40.824 23.9628 34.4723 25.6135 33.8233C27.2642 33.1743 33.0994 36.4215 34.3761 35.1902C35.6529 33.9589 32.6191 28.0099 33.3274 26.3838C34.0358 24.7577 40.458 22.9277 40.4901 21.1542C40.5222 19.3808 34.1705 17.3195 33.5215 15.6687C32.8725 14.018 36.1197 8.18281 34.8884 6.90609C33.6571 5.62937 27.7082 8.66314 26.082 7.9548C24.4559 7.24646 22.6259 0.824237 20.8525 0.792114C19.0791 0.759992 17.0177 7.11174 15.367 7.76073C13.7162 8.40971 7.88105 5.1625 6.60434 6.39379C5.32762 7.62508 8.36138 13.574 7.65304 15.2002Z" />
-              </svg>
-              <span class="discount-text">10%</span>
-            </div>
-          </div>
-
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
         </div>
       </div>
+      <!--   ШАБЛОН КАРТОЧКИ (выброчно похожие круизы от X до X)-->
 
     </div>
   </div>
@@ -248,8 +222,6 @@ header {
 .sticky {
   position: fixed;
 }
-
-
 .breadcrumbs{
   font-size: 16px;
   font-weight: 400;
@@ -258,7 +230,6 @@ header {
   align-items: center;
   justify-content: center;
 }
-
 span{
   padding-right: 6px;
   padding-left: 6px;
@@ -269,20 +240,6 @@ span{
 }
 .main_page:hover{
   color: #0056b3; /* Цвет фона кнопки */
-}
-
-.block_1{
-  position: relative;
-  height: 450px;
-}
-.block_3{
-  background-color: #EDF5FF;
-}
-.background-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
 }
 .navbar {
   height: auto;
@@ -296,7 +253,6 @@ span{
   align-items: center;
   list-style-type: none;
 }
-
 .icon_nav{
   margin-left: auto;
 }
@@ -314,4 +270,101 @@ span{
 .icon_nav_search:hover{
   fill: #0056b3;
 }
+/* ШАПКА */
+
+/* БЛОК 1 */
+.block0 {
+  height: auto; /* Изменено на авто, чтобы блок подстраивался по содержимому */
+  padding: 32px 150px 64px 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+.image {
+  margin-right: 8px;
+  flex: 2;
+  height: auto; /* Автоматическая высота для левой картинки */
+}
+.background-image1 {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.background-imag {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+}
+.image-grid {
+  flex: 1; /* Чтобы занимал оставшееся пространство справа */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Два столбца */
+  grid-template-rows: repeat(2, auto); /* Две строки */
+  grid-gap: 8px;
+}
+.image-grid img {
+  width: 100%; /* Заполнение всей доступной ширины в колонке */
+  height: 100%; /* Заполнение всей доступной высоты в строке */
+  object-fit: cover; /* Сохранение пропорций и обрезка изображений по размерам */
+}
+/* БЛОК 1 */
+
+/* БЛОК 2 */
+.block_2{
+  background-color: #EDF5FF;
+}
+/* БЛОК 2 */
+
+/* БЛОК 3 */
+.block_3{
+  background-color: #f8f8f8;
+}
+/* БЛОК 3 */
+
+/* БЛОК 4 */
+.block_4{
+  position: relative;
+  background-color: #EDF5FF;
+  height: auto;
+}
+.block_5 {
+  padding: 64px 150px  64px 150px ;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap; /* Позволяет карточкам переноситься на новую строку */
+  justify-content: space-between; /* Равномерно распределяет пространство между карточками по горизонтали */
+}
+/* БЛОК 4 */
+
+/* Медиа-запрос для адаптивного разрешения */
+@media screen and (max-width: 1200px) {
+  .block_5 {
+    padding: 48px 24px; /* Уменьшаем отступы */
+    flex-direction: column; /* Располагаем дочерние элементы в столбец при адаптивном разрешении */
+    align-items: center;
+  }
+  .block0{
+    height: auto;
+    padding: 48px 24px;
+    flex-direction: column;
+    align-items: center;
+  }
+  .background-imag {
+    width: 100%;
+    height: 100%;
+    margin-top: 8px;
+    object-fit: cover;
+  }
+  .image{
+    height: auto;
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+}
+
 </style>

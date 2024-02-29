@@ -126,8 +126,6 @@ header {
 .sticky {
   position: fixed;
 }
-
-
 .navbar {
   display: flex;
   margin: 0;
@@ -139,20 +137,17 @@ header {
   align-items: center;
   list-style-type: none;
 }
-
 .navbar_logo {
   width: 100px;
   height: auto;
   padding-right: 24px;
   margin-right: auto; /* Размещаем логотип слева */
 }
-
 nav ul {
   list-style: none;
   display: flex;
   align-items: center;
 }
-
 nav li{
   padding-right: 24px;
 }

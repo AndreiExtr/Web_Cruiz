@@ -1,5 +1,6 @@
 <script>
 import Head from "@/components/Head.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -7,6 +8,12 @@ export default {
   },
   data() {
     return {
+      products: [], // Ваш массив с продуктами
+
+      // product1: null,
+      // product2: null,
+      // product3: null,
+      // product4: null,
       images: [
         { src: "/src/assets/2.png", alt: "Image 1" },
         { src: "/src/assets/2.png", alt: "Image 2" },
@@ -17,6 +24,28 @@ export default {
     };
   },
   mounted() {
+
+    axios.get('http://localhost:3000/products')
+        .then(response => {
+          this.products = response.data;
+          const requests = this.products.map(product => {
+            return axios.get(`http://localhost:3000/products/${product.id}`);
+          });
+          axios.all(requests)
+              .then(axios.spread((...responses) => {
+                responses.forEach((response, index) => {
+                  this.products[index].details = response.data;
+                });
+              }))
+              .catch(error => {
+                console.error('Ошибка при получении информации о продуктах:', error);
+              });
+        })
+        .catch(error => {
+          console.error('Ошибка при загрузке продуктов:', error);
+        });
+
+    // Вызов метода для определения ширины слайдера при загрузке и при изменении размеров окна
     this.calculateSlideWidth();
     window.addEventListener('resize', this.calculateSlideWidth);
     this.$nextTick(() => {
@@ -57,6 +86,7 @@ export default {
   },
 };
 </script>
+
 
 <template>
   <div id="app">
@@ -119,39 +149,46 @@ export default {
   <div class="container_3" id="section2">
     <div class="block1">
 
-      <h2 class="title">Круизы</h2>
-      <div class="cards">
-        <div class="product-card">
-          <img src="/src/assets/image%201.png" alt="Product Image">
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
-        </div>
+      <h2 class="title">Популярные круизы</h2>
+      <div class="cards1">
 
-        <div class="product-card">
-          <img src="/src/assets/image%201.png" alt="Product Image">
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
+        <!--   ШАБЛОН КАРТОЧКИ (популярные круизы)-->
+        <div v-for="product in products" :key="product.id" class="product-card1">
+          <img :src="product.image" alt="Product Image">
+          <div class="info-right">
+            <div class="product-title-container">
+              <h3 class="product-title1">{{ product.title }}</h3>
+              <p class="cruise-date">{{ product.cruiseDate }}</p>
+            </div>
+            <p class="product-price">от {{ product.count }} ₽/ чел.</p>
+            <p class="product-description">{{ product.description }}</p>
+            <router-link :to="'/product/' + product.id" class="btn-details">Выбрать каюту</router-link>
+          </div>
         </div>
+        <!--   ШАБЛОН КАРТОЧКИ (популярные круизы)-->
 
-        <div class="product-card">
-          <img src="/src/assets/image%201.png" alt="Product Image">
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
-        </div>
 
-        <div class="product-card">
+<!--
+        <div v-if="product2" class="product-card1">
+          <img :src="product2.image" alt="Product Image">
+          <h3 class="product-title">{{ product2.title }}</h3>
+          <p class="product-price" >от {{ product2.count }} ₽/ чел.</p>
+          <p class="product-description">{{ product2.description }}</p>
+          <router-link :to="'/product/' + product2.id" class="btn-details">Подробнее</router-link>
+        </div>
+-->
+
+
+
+          <!--КАРТОЧКА БЕЗ JS-->
+<!--        <div class="product-card">
           <img src="/src/assets/image%201.png" alt="Product Image">
           <h3 class="product-title">Title</h3>
           <p class="product-price">от 58 565 ₽/ чел.</p>
           <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
           <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
-        </div>
+        </div>-->
+
       </div>
 
       <div class="button_all">
@@ -167,8 +204,8 @@ export default {
 
       <h2 class="title">Горячие предложения</h2>
 
-      <div class="cards">
-        <div class="product-card">
+      <div class="cards1">
+        <div class="product-card1">
           <div class="img_badge">
             <img src="/src/assets/image%201.png" alt="Product Image">
             <!-- Бейджик со скидкой -->
@@ -179,54 +216,15 @@ export default {
               <span class="discount-text">10%</span>
             </div>
           </div>
-
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
-
-        </div>
-
-        <div class="product-card">
-
-          <div class="img_badge">
-            <img src="/src/assets/image%201.png" alt="Product Image">
-            <!-- Бейджик со скидкой -->
-            <div class="discount-badge">
-              <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.65304 15.2002C6.9447 16.8263 0.522477 18.6563 0.490356 20.4297C0.458233 22.2032 6.80997 24.2645 7.45896 25.9153C8.10795 27.566 4.86074 33.4012 6.09204 34.6779C7.32333 35.9546 13.2723 32.9208 14.8984 33.6292C16.5246 34.3375 18.3545 40.7598 20.128 40.7919C21.9014 40.824 23.9628 34.4723 25.6135 33.8233C27.2642 33.1743 33.0994 36.4215 34.3761 35.1902C35.6529 33.9589 32.6191 28.0099 33.3274 26.3838C34.0358 24.7577 40.458 22.9277 40.4901 21.1542C40.5222 19.3808 34.1705 17.3195 33.5215 15.6687C32.8725 14.018 36.1197 8.18281 34.8884 6.90609C33.6571 5.62937 27.7082 8.66314 26.082 7.9548C24.4559 7.24646 22.6259 0.824237 20.8525 0.792114C19.0791 0.759992 17.0177 7.11174 15.367 7.76073C13.7162 8.40971 7.88105 5.1625 6.60434 6.39379C5.32762 7.62508 8.36138 13.574 7.65304 15.2002Z" />
-              </svg>
-              <span class="discount-text">8%</span>
-            </div>
+          <div class="info-right">
+            <h3 class="product-title1">Title</h3>
+            <p class="product-price">от 58 565 ₽/ чел.</p>
+            <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            <router-link to="/product/:id"  class="btn-details">Выбрать каюту</router-link>
           </div>
-
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
         </div>
 
-        <div class="product-card">
-
-          <div class="img_badge">
-            <img src="/src/assets/image%201.png" alt="Product Image">
-            <!-- Бейджик со скидкой -->
-            <div class="discount-badge">
-              <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7.65304 15.2002C6.9447 16.8263 0.522477 18.6563 0.490356 20.4297C0.458233 22.2032 6.80997 24.2645 7.45896 25.9153C8.10795 27.566 4.86074 33.4012 6.09204 34.6779C7.32333 35.9546 13.2723 32.9208 14.8984 33.6292C16.5246 34.3375 18.3545 40.7598 20.128 40.7919C21.9014 40.824 23.9628 34.4723 25.6135 33.8233C27.2642 33.1743 33.0994 36.4215 34.3761 35.1902C35.6529 33.9589 32.6191 28.0099 33.3274 26.3838C34.0358 24.7577 40.458 22.9277 40.4901 21.1542C40.5222 19.3808 34.1705 17.3195 33.5215 15.6687C32.8725 14.018 36.1197 8.18281 34.8884 6.90609C33.6571 5.62937 27.7082 8.66314 26.082 7.9548C24.4559 7.24646 22.6259 0.824237 20.8525 0.792114C19.0791 0.759992 17.0177 7.11174 15.367 7.76073C13.7162 8.40971 7.88105 5.1625 6.60434 6.39379C5.32762 7.62508 8.36138 13.574 7.65304 15.2002Z" />
-              </svg>
-              <span class="discount-text">15%</span>
-            </div>
-          </div>
-
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
-        </div>
-
-        <div class="product-card">
-
+        <div class="product-card1">
           <div class="img_badge">
             <img src="/src/assets/image%201.png" alt="Product Image">
             <!-- Бейджик со скидкой -->
@@ -237,16 +235,107 @@ export default {
               <span class="discount-text">10%</span>
             </div>
           </div>
-
-          <h3 class="product-title">Title</h3>
-          <p class="product-price">от 58 565 ₽/ чел.</p>
-          <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-          <router-link to="/product/:id"  class="btn-details">Подробнее</router-link>
+          <div class="info-right">
+            <h3 class="product-title1">Title</h3>
+            <p class="product-price">от 58 565 ₽/ чел.</p>
+            <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            <router-link to="/product/:id"  class="btn-details">Выбрать каюту</router-link>
+          </div>
         </div>
+
+        <div class="product-card1">
+          <div class="img_badge">
+            <img src="/src/assets/image%201.png" alt="Product Image">
+            <!-- Бейджик со скидкой -->
+            <div class="discount-badge">
+              <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.65304 15.2002C6.9447 16.8263 0.522477 18.6563 0.490356 20.4297C0.458233 22.2032 6.80997 24.2645 7.45896 25.9153C8.10795 27.566 4.86074 33.4012 6.09204 34.6779C7.32333 35.9546 13.2723 32.9208 14.8984 33.6292C16.5246 34.3375 18.3545 40.7598 20.128 40.7919C21.9014 40.824 23.9628 34.4723 25.6135 33.8233C27.2642 33.1743 33.0994 36.4215 34.3761 35.1902C35.6529 33.9589 32.6191 28.0099 33.3274 26.3838C34.0358 24.7577 40.458 22.9277 40.4901 21.1542C40.5222 19.3808 34.1705 17.3195 33.5215 15.6687C32.8725 14.018 36.1197 8.18281 34.8884 6.90609C33.6571 5.62937 27.7082 8.66314 26.082 7.9548C24.4559 7.24646 22.6259 0.824237 20.8525 0.792114C19.0791 0.759992 17.0177 7.11174 15.367 7.76073C13.7162 8.40971 7.88105 5.1625 6.60434 6.39379C5.32762 7.62508 8.36138 13.574 7.65304 15.2002Z" />
+              </svg>
+              <span class="discount-text">10%</span>
+            </div>
+          </div>
+          <div class="info-right">
+            <h3 class="product-title1">Title</h3>
+            <p class="product-price">от 58 565 ₽/ чел.</p>
+            <p class="product-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+            <router-link to="/product/:id"  class="btn-details">Выбрать каюту</router-link>
+          </div>
+        </div>
+
       </div>
 
     </div>
   </div>
+  </div>
+
+  <!--  БЛОК №5-->
+  <div class="container_5" id="section4">
+    <div class="block1">
+      <h2 class="title">Новости</h2>
+
+      <div class="blocks">
+        <div class="background">
+          <img src="/src/assets/3.png" alt="Background Image" class="background-image">
+          <div class="info-badge">
+            <div class="inf5">
+              <p class="date1">
+                15 июля 2023
+              </p>
+              <p class="articl">
+                Круизы от «Тихоход» рекомендованы Русским географическим обществом.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="articles">
+          <div class="inf1">
+            <p class="date">
+              15 июля 2023
+            </p>
+            <p class="articl">
+              В ресторанах, барах и кафе каждого круизного лайнера работает опытный шеф-повар.
+              Вы можете выбрать речной круиз с полноценным трехразовым питанием или частичным пансионом.
+              Меню в ресторане представлено в нескольких вариантах, в кафе и барах – разнообразные десерты, винная карта.
+            </p>
+          </div>
+
+          <div class="inf2">
+            <p class="date">
+              15 июля 2023
+            </p>
+            <p class="articl">
+              В ресторанах, барах и кафе каждого круизного лайнера работает опытный шеф-повар.
+              Вы можете выбрать речной круиз с полноценным трехразовым питанием или частичным пансионом.
+              Меню в ресторане представлено в нескольких вариантах, в кафе и барах – разнообразные десерты, винная карта.
+            </p>
+          </div>
+
+          <div class="inf3">
+            <p class="date">
+              15 июля 2023
+            </p>
+            <p class="articl">
+              В ресторанах, барах и кафе каждого круизного лайнера работает опытный шеф-повар.
+              Вы можете выбрать речной круиз с полноценным трехразовым питанием или частичным пансионом.
+              Меню в ресторане представлено в нескольких вариантах, в кафе и барах – разнообразные десерты, винная карта.
+            </p>
+          </div>
+
+          <div class="inf4">
+            <p class="date">
+              15 июля 2023
+            </p>
+            <p class="articl">
+              В ресторанах, барах и кафе каждого круизного лайнера работает опытный шеф-повар.
+              Вы можете выбрать речной круиз с полноценным трехразовым питанием или частичным пансионом.
+              Меню в ресторане представлено в нескольких вариантах, в кафе и барах – разнообразные десерты, винная карта.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -314,6 +403,7 @@ h1 {
     font-size: 40px; /* Уменьшенный размер шрифта для заголовка на более узких экранах */
   }
 }
+/* БЛОК 1*/
 
 /* БЛОК 2*/
 .container_2 {
@@ -383,7 +473,9 @@ h1 {
 
 .slide img {
   width: 100%;
-  border-radius: 5px; /* Радиус скругления для изображения */
+  /*
+  border-radius: 5px; !* Радиус скругления для изображения *!
+  */
   object-fit: cover; /* Растягиваем картинку на всю ширину и высоту, сохраняя пропорции */
 }
 
@@ -424,7 +516,7 @@ h1 {
     padding: 0 16px; /* Уменьшаем внутренние отступы по горизонтали */
   }
 }
-
+/* БЛОК 2*/
 
 /* БЛОК 3*/
 .container_3 {
@@ -434,62 +526,77 @@ h1 {
 }
 .block1 {
   padding: 64px 150px  64px 150px ;
-  /*display: flex;*/
   justify-content: space-between;
   flex-wrap: nowrap;
 }
-.title{
-  font-weight: lighter;
-  font-size: 20px;
-  color: #333333;
-  text-transform: uppercase; /* Добавляем это свойство */
-}
 
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Количество карточек будет зависеть от ширины контейнера, каждая карточка будет иметь минимальную ширину 250px */
-  grid-gap: 20px; /* Промежуток между карточками */
+.cards1 {
+  display: flex;
+  flex-wrap: wrap; /* Позволяет карточкам переноситься на новую строку */
+  justify-content: space-between; /* Равномерно распределяет пространство между карточками по горизонтали */
 }
 
 /* КАРТОЧКИ*/
-.product-card {
-  /*border: 1px solid #ccc;*/
-  flex-basis: calc(20% - 30px); /* Ширина карточки, минус 20px, чтобы учесть промежутки между карточками */
+.product-card1 {
+  display: flex;
+  align-items: flex-start; /* Выравнивание по верхнему краю */
+  margin-bottom: 20px; /* Отступ между карточками */
   background: white;
   border-radius: 5px;
-  padding: 20px;
-  margin: 10px 30px 10px 0;
-  /*width: 250px;*/
-  text-align: left;
+  padding: 16px;
+  justify-content: flex-start; /* Выравнивание по левому краю по горизонтали */
   cursor: pointer;
-}
-.product-card:hover {
-  cursor: pointer;
-  box-shadow: -1px 24px 36px -21px rgba(0,86,179,0.43); /* Добавляем тень */
+  width: 100%; /* Растягиваем карточку по ширине контейнера */
 }
 
-.product-card img {
-  max-width: 100%; /* Максимальная ширина изображения равна ширине карточки */
-  height: auto; /* Сохраняем пропорции изображения */
+.product-card1:hover {
+  box-shadow: 16px 16px 36px -21px rgba(0, 86, 179, 0.43); /* Добавляем тень при наведении */
 }
 
-.product-title {
-  font-size: 14px;
+.info-right {
+  width: 100%;
+  height: auto;
+  margin-left: 20px; /* Отступ между изображением и текстом справа */
+}
+
+.product-card1 img {
+  max-width: 300px; /* Максимальная ширина изображения равна ширине родительского элемента */
+  max-height: 100%; /* Максимальная высота изображения равна высоте родительского элемента */
+  width: auto; /* Автоматическое определение ширины для сохранения пропорций */
+  height: auto; /* Автоматическое определение высоты для сохранения пропорций */
+}
+
+
+
+.product-title1 {
+  font-size: 18px;
+  margin: 0;
   color: #333333;
-  margin-top: 10px;
+  word-wrap: break-word; /* Добавленное свойство для переноса текста */
+}
+.product-title-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
+.cruise-date {
+  font-weight: bold;
+  text-align: right;
+  margin: 0;
+}
 .product-price {
   font-weight: bold;
   color: #007bff;
   margin-top: 5px;
 }
-
 .product-description {
   font-size: 14px;
   margin-top: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  word-wrap: break-word; /* Добавленное свойство для переноса текста */
 }
+
 
 .btn-details {
   background-color: #007bff;
@@ -543,7 +650,7 @@ h1 {
     align-items: center;
   }
 }
-
+/* БЛОК 3*/
 
 /* БЛОК 4*/
 .container_4 {
@@ -551,37 +658,8 @@ h1 {
   height: auto;
   background-color: #f8f8f8;
 }
-.block1 {
-  padding: 64px 150px  64px 150px ;
-  /*display: flex;*/
-  justify-content: space-between;
-  flex-wrap: nowrap;
-}
-.title{
-  font-weight: lighter;
-  font-size: 20px;
-  color: #333333;
-  text-transform: uppercase; /* Добавляем это свойство */
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Количество карточек будет зависеть от ширины контейнера, каждая карточка будет иметь минимальную ширину 250px */
-  grid-gap: 20px; /* Промежуток между карточками */
-}
 
 /* КАРТОЧКИ*/
-.product-card {
-  position: relative;
-  flex-basis: calc(20% - 30px); /* Ширина карточки, минус 20px, чтобы учесть промежутки между карточками */
-  background: white;
-  border-radius: 5px;
-  padding: 20px;
-  margin: 10px 30px 10px 0;
-  /*width: 250px;*/
-  text-align: left;
-  cursor: pointer;
-}
 .img_badge {
   position: relative;
 }
@@ -604,49 +682,81 @@ h1 {
 }
 
 
-
-.product-card:hover {
-  cursor: pointer;
-  box-shadow: -1px 24px 36px -21px rgba(0,86,179,0.43); /* Добавляем тень */
+/* БЛОК 5*/
+.container_5 {
+  width: 100%;
+  height: auto;
+  background-color: #EDF5FF;
+}
+.blocks {
+  display: flex; /* Делаем контейнер flex-контейнером */
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+.background{
+  position: relative;
+  margin-right: 16px;
+}
+.background img {
+  max-width: none; /* Отключает максимальную ширину изображения */
+  width: 550px; /* Автоматическая ширина для поддержки изначального размера */
+  height: auto; /* Автоматическая высота для поддержки пропорций */
+}
+.info-badge {
+  position: absolute;
+  bottom: 5px; /* Расстояние от нижнего края родительского блока */
+  background-color: rgba(0, 0, 0, 0.5); /* Прозрачный черный цвет фона */
+  color: white; /* Белый цвет текста */
+  padding: 10px; /* Внутренний отступ */
 }
 
-.product-card img {
-  max-width: 100%; /* Максимальная ширина изображения равна ширине карточки */
-  height: auto; /* Сохраняем пропорции изображения */
-}
-
-.product-title {
-  font-size: 14px;
+.articles{
+  font-weight: normal;
+  font-size: 16px;
   color: #333333;
-  margin-top: 10px;
 }
-
-.product-price {
-  font-weight: bold;
-  color: #007bff;
-  margin-top: 5px;
-}
-
-.product-description {
-  font-size: 14px;
-  margin-top: 10px;
-}
-
-.btn-details {
-  font-size: 14px;
-  background-color: #007bff;
-  color: #fff;
-  order: -1; /* Изменяем порядок кнопки на первый */
-  border: none;
-  padding: 8px 20px;
-  border-radius: 5px;
-  margin-top: 15px;
+.inf1:hover .date,
+.inf1:hover .articl,
+.inf2:hover .date,
+.inf2:hover .articl,
+.inf3:hover .date,
+.inf3:hover .articl,
+.inf4:hover .date,
+.inf4:hover .articl {
+  color: #0056b3;
   cursor: pointer;
-  transition: background-color 0.3s;
+}
+.inf5:hover .date1,
+.inf5:hover .articl{
+  color: #0f83fd;
+  cursor: pointer;
 }
 
-.btn-details:hover {
-  background-color: #0056b3;
+.articl{
+  margin-top: 2px;
+  overflow: hidden; /* Скрываем все, что не помещается в контейнер */
+  display: -webkit-box; /* Включаем поддержку для старых версий Safari и iOS */
+  -webkit-box-orient: vertical; /* Устанавливаем ориентацию блока в вертикальное положение */
+  -webkit-line-clamp: 3; /* Устанавливаем количество отображаемых строк */
+  /* Добавляем префиксы для других браузеров */
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.date{
+  font-weight: normal;
+  font-size: 12px;
+  color: #333333;
+  margin-bottom: 0;
+}
+.date1{
+  font-weight: normal;
+  font-size: 12px;
+  color: #ffffff;
+  margin-bottom: 0;
 }
 
 
@@ -655,7 +765,14 @@ h1 {
   .container_4{
     height: auto;
   }
-
+  .container_5{
+    height: auto;
+  }
+  .blocks {
+    padding: 48px 24px; /* Уменьшаем отступы */
+    flex-direction: column; /* Располагаем дочерние элементы в столбец при адаптивном разрешении */
+    align-items: center;
+  }
   .block1 {
     padding: 48px 24px; /* Уменьшаем отступы */
     flex-direction: column; /* Располагаем дочерние элементы в столбец при адаптивном разрешении */
