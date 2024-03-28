@@ -122,7 +122,8 @@ export default {
           <span>•</span>
           <p>Круиз</p>
         </div>
-        <div class="icon_nav">
+        <div class="action">
+          <p>+7 (999) 124-23-45</p>
           <!-- КНОПКА "ВОЙТИ" -->
           <button class="login_button" @click="openModal">Войти</button>
         </div>
@@ -264,11 +265,15 @@ span{
   list-style-type: none;
 }
 
-.icon_nav{
+.action{
   margin-left: auto;
   display: flex;
   justify-content: center; /* Выравнивание по горизонтали */
   align-items: center;
+}
+
+.action p{
+  font-size: 16px;
 }
 
 .login_button {
