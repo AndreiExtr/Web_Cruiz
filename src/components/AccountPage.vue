@@ -21,8 +21,22 @@
   <div class="block0">
     <div class="block01">
       <h2 class="title">Личный кабинет</h2>
-      <router-link :to="'/'" class="btn-exit">Выйти из аккаунта</router-link>
+      <div class="tab">
+        <input checked id="tab-btn-1" name="tab-btn" type="radio" value="">
+        <label class="tab-1" for="tab-btn-1">Мои заказы</label>
+        <input id="tab-btn-2" name="tab-btn" type="radio" value="">
+        <label class="tab-2" for="tab-btn-2">Настройки</label>
+        <hr>
+        <div class="tab-content" id="content-1">
+          Содержимое 1...
+        </div>
+        <div class="tab-content" id="content-2">
+          <router-link :to="'/'" class="btn-exit">Выйти из аккаунта</router-link>
+        </div>
+      </div>
+
     </div>
+
   </div>
   <Footer />
 </template>
@@ -71,9 +85,11 @@ header {
   width: 100%;
   box-shadow: 0 19px 40px -19px rgba(95,95,95,0.3);; /* Добавляем тень */
 }
+
 .sticky {
   position: fixed;
 }
+
 .navbar {
   height: auto;
   display: flex;
@@ -83,17 +99,21 @@ header {
   align-items: center;
   list-style-type: none;
 }
+
 .main_page{
   color: #007bff;  /* Цвет фона текста */
   cursor: pointer;
 }
+
 .main_page:hover{
   color: #0056b3; /* Цвет фона кнопки */
 }
+
 span{
   padding-right: 6px;
   padding-left: 6px;
 }
+
 .breadcrumbs_acc{
   font-size: 16px;
   font-weight: 400;
@@ -101,19 +121,6 @@ span{
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.icon_nav{
-  margin-left: auto;
-  display: flex;
-  justify-content: center; /* Выравнивание по горизонтали */
-  align-items: center;
-}
-.icon_shopping{
-  padding-left: 24px;
-  fill: #333333;
-}
-.icon_shopping:hover{
-  fill: #0056b3;
 }
 
 /* БЛОК 1 */
@@ -125,7 +132,9 @@ span{
   justify-content: space-between;
   flex-wrap: nowrap;
 }
+
 .block01{
+  width: 100%;
   justify-content: space-between;
   flex-wrap: nowrap;
   text-align: left;
@@ -146,5 +155,43 @@ span{
 
 .btn-exit:hover {
   background-color: #b30000;
+}
+
+/* ТАБЫ */
+.tab{
+  margin: 24px 0;
+}
+
+.tab > input[type="radio"] {
+  display: none;
+}
+
+hr{
+  width: 100%;
+}
+
+.tab-1,
+.tab-2{
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.tab-1:hover,
+.tab-2:hover{
+  color: #0056b3;
+}
+
+.tab-content {
+  display: none;
+  margin: 16px 0;
+}
+
+#tab-btn-1:checked~#content-1,
+#tab-btn-2:checked~#content-2{
+  display: block;
+}
+
+.tab > input[type="radio"]:checked + label {
+  color: #007bff;
 }
 </style>
