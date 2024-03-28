@@ -1,10 +1,14 @@
 import express from 'express';
 import path from 'path';
 import mysql from 'mysql';
+import bodyParser from 'body-parser';
 
 const app = express();
+app.use(bodyParser.json());
 
-// Middleware для разрешения CORS
+
+
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -31,10 +35,44 @@ connection.connect((err) => {
 // Подключаем статический middleware для обслуживания файла Swagger JSON
 app.use('/swagger.json', express.static(path.resolve('swagger.json')));
 
-// Маршрут для получения списка товаров
+
+
+
+
+// Маршрут для получения списка пользователей
+app.get('/users', (req, res) => {
+    connection.query('SELECT * FROM users', (error, results) => {
+        if (error) {
+            console.error('Ошибка при выполнении запроса к базе данных:', error);
+            res.status(500).json({ message: 'Ошибка при получении списка пользователей' });
+            return;
+        }
+        res.json(results);
+    });
+});
+
+// Маршрут для получения информации о пользователе по его ID
+app.get('/users/:id', (req, res) => {
+    const userId = req.params.id;
+    connection.query('SELECT * FROM users WHERE id = ?', [userId], (error, results) => {
+        if (error) {
+            console.error('Ошибка при выполнении запроса к базе данных:', error);
+            res.status(500).json({ message: 'Ошибка при получении информации о пользователе' });
+            return;
+        }
+        if (results.length === 0) {
+            res.status(404).json({ message: 'Пользователь не найден' });
+            return;
+        }
+        res.json(results[0]);
+    });
+});
+
+
+
+
 // Маршрут для получения списка товаров
 app.get('/products', (req, res) => {
-    // Выполните запрос к базе данных, чтобы получить список всех товаров
     connection.query('SELECT * FROM products', (error, results) => {
         if (error) {
             console.error('Ошибка при выполнении запроса к базе данных:', error);
@@ -52,7 +90,6 @@ app.get('/products', (req, res) => {
 // Обработчик для запроса информации о продукте по его ID
 app.get('/products/:id', (req, res) => {
     const productId = req.params.id;
-    // Выполнение запроса к базе данных MySQL
     connection.query('SELECT * FROM products WHERE id = ?', [productId], (error, results) => {
         if (error) {
             console.error('Ошибка при выполнении запроса к базе данных:', error);
@@ -67,9 +104,26 @@ app.get('/products/:id', (req, res) => {
     });
 });
 
+app.post('/users', (req, res) => {
+    // Получаем номер телефона из тела запроса
+    const userPhoneNumber = req.body.phoneNumber;
+
+    connection.query('SELECT * FROM users WHERE phoneNumber = ?', [userPhoneNumber], (error, results) => {
+        if (error) {
+            console.error('Ошибка при выполнении запроса к базе данных:', error);
+            res.status(500).json({ message: 'Ошибка при получении пользователя' });
+            return;
+        }
+        if (results.length === 0) {
+            res.status(404).json({ isValid: false, message: 'Вы с таким номером телефона не зарегистрированы' });
+            return;
+        }
+        res.json({ isValid: true, message: 'Номер телефона найден в базе данных', user: results[0] });
+    });
+});
+
+
 const port = 3000;
 app.listen(port, () => {
     console.log(`Сервер запущен на порту ${port}`);
 });
-
-

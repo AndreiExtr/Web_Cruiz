@@ -2,12 +2,18 @@ import { createRouter, createWebHistory } from 'vue-router';
 import MainPage from '../components/MainPage.vue';
 import ProductPage from '../components/ProductPage.vue';
 import SwaggerUI from "../../SwaggerUI.vue";
+import AccountPage from "@/components/AccountPage.vue";
 
 const routes = [
     {
         path: '/',
         name: 'MainPage',
         component: MainPage
+    },
+    {
+        path: '/account',
+        name: 'Account',
+        component: AccountPage
     },
     {
         path: '/product/:id', // пример динамического маршрута с параметром id

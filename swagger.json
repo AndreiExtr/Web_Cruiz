@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Product API",
-    "description": "API для управления продуктами",
+    "description": "API для управления продуктами и пользователями",
     "version": "1.0.0"
   },
   "host": "localhost:3000",
@@ -45,38 +45,41 @@
             "description": "Информация о продукте успешно получена"
           }
         }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Получить список пользователей",
+        "responses": {
+          "200": {
+            "description": "Список пользователей успешно получен"
+          }
+        }
       },
-      "put": {
-        "summary": "Обновить информацию о продукте по ID",
+      "post": {
+        "summary": "Добавить нового пользователя",
+        "responses": {
+          "201": {
+            "description": "Пользователь успешно добавлен"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Получить информацию о пользователе по ID",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
             "type": "integer",
-            "description": "ID продукта"
+            "description": "ID пользователя"
           }
         ],
         "responses": {
           "200": {
-            "description": "Информация о продукте успешно обновлена"
-          }
-        }
-      },
-      "delete": {
-        "summary": "Удалить продукт по ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "integer",
-            "description": "ID продукта"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Продукт успешно удалён"
+            "description": "Информация о пользователе успешно получена"
           }
         }
       }
@@ -109,6 +112,37 @@
         "cruiseDate": {
           "type": "string",
           "description": "даты начало и окончание круиза"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Уникальный идентификатор пользователя"
+        },
+        "surName": {
+          "type": "string",
+          "description": "Фамилия пользователя"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "Имя пользователя"
+        },
+        "middleName": {
+          "type": "string",
+          "description": "Отчество пользователя"
+        },
+        "birthday": {
+          "type": "string",
+          "format": "date",
+          "description": "Дата рождения пользователя"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "format": "string",
+          "description": "Номер телефона пользователя"
         }
       }
     }
