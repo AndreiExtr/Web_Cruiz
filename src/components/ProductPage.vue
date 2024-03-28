@@ -122,15 +122,14 @@ export default {
           <span>•</span>
           <p>Круиз</p>
         </div>
-        <div class="action">
-          <p>+7 (999) 124-23-45</p>
+        <div class="icon_nav">
           <!-- КНОПКА "ВОЙТИ" -->
           <button class="login_button" @click="openModal">Войти</button>
         </div>
       </ul>
     </nav>
   </header>
-  
+
   <div class="block_1">
     <div class="block0">
       <div class="image">
@@ -202,16 +201,16 @@ export default {
       <!--   ШАБЛОН КАРТОЧКИ (выброчно похожие круизы от X до X)-->
       <div class="cards">
         <div class="product-card1" v-for="(product, index) in products.slice(4, 6)" :key="product.id">
-        <img :src="product.image" alt="Product Image">
-        <div class="info-right">
-          <div class="product-title-container">
-            <h3 class="product-title1">{{ product.title }}</h3>
-            <p class="cruise-date">{{ product.cruiseDate }}</p>
+          <img :src="product.image" alt="Product Image">
+          <div class="info-right">
+            <div class="product-title-container">
+              <h3 class="product-title1">{{ product.title }}</h3>
+              <p class="cruise-date">{{ product.cruiseDate }}</p>
+            </div>
+            <p class="product-price">от {{ product.count }} ₽/ чел.</p>
+            <p class="product-description">{{ product.description }}</p>
+            <router-link :to="'/product/' + product.id" class="btn-details">Выбрать каюту</router-link>
           </div>
-          <p class="product-price">от {{ product.count }} ₽/ чел.</p>
-          <p class="product-description">{{ product.description }}</p>
-          <router-link :to="'/product/' + product.id" class="btn-details">Выбрать каюту</router-link>
-        </div>
         </div>
       </div>
       <!--   ШАБЛОН КАРТОЧКИ (выброчно похожие круизы от X до X)-->
@@ -265,15 +264,11 @@ span{
   list-style-type: none;
 }
 
-.action{
+.icon_nav{
   margin-left: auto;
   display: flex;
   justify-content: center; /* Выравнивание по горизонтали */
   align-items: center;
-}
-
-.action p{
-  font-size: 16px;
 }
 
 .login_button {
