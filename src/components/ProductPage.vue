@@ -1,9 +1,7 @@
 <script>
 import Footer from "@/components/Footer.vue";
-import Login from './Login.vue'; // Импортируем компонент Login.vue
-
+import Login from './Login.vue';
 import axios from "axios";
-import Head from "@/components/Head.vue";
 
 export default {
   components: {
@@ -12,22 +10,26 @@ export default {
   },
   data() {
     return {
-      isModalOpen: false, // Инициализируем свойство isModalOpen
+      isModalOpen: false,
       isMenuOpen: false,
-
-      products:[],
-
-      isSticky: false,
-      // images: [
-      //   { src: "/src/assets/2.png", alt: "Image 1" },
-      //   { src: "/src/assets/2.png", alt: "Image 2" },
-      //   { src: "/src/assets/3.png", alt: "Image 3" },
-      // ],
-      // currentIndex: 0,
-      // slideWidth: 500,
+      products: [],
+      selectedProductTitle: '', // Заголовок выбранного круиза
+      product: null,
+      isSticky: false
     };
   },
   mounted() {
+
+    this.scrollToTop()
+
+    const productId = this.$route.params.id; // Получаем id круиза из параметров маршрута
+    axios.get(`http://localhost:3000/products/${productId}`)
+        .then(response => {
+          this.selectedProductTitle = response.data.title; // Устанавливаем заголовок выбранного круиза
+        })
+        .catch(error => {
+          console.error('Ошибка при загрузке круиза:', error);
+        });
 
     axios.get('http://localhost:3000/products')
         .then(response => {
@@ -56,18 +58,24 @@ export default {
     window.removeEventListener('resize', this.calculateSlideWidth);
     window.removeEventListener('scroll', this.handleScroll);
   },
+
+
   methods: {
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth" // делает прокрутку плавной
+      });
+    },
     openModal() {
-      this.isModalOpen = true; // Открываем модальное окно
+      this.isModalOpen = true;
     },
     closeModal() {
-      this.isModalOpen = false; // Закрываем модальное окно
+      this.isModalOpen = false;
     },
-
     goBack() {
-      this.$router.go(-1); // Переход на одну страницу назад в истории браузера
+      this.$router.go(-1);
     },
-
     handleScroll() {
       if (window.pageYOffset > 0) {
         this.isSticky = true;
@@ -76,7 +84,7 @@ export default {
       }
     },
   },
-}
+};
 </script>
 
 <template>
@@ -98,6 +106,7 @@ export default {
   </header>
 
   <div class="block_1">
+    <h3 class="product-title">{{ selectedProductTitle }}</h3>
     <div class="block_1-images">
       <div class="image">
         <img src="/src/assets/6.jpg" alt="Background Image" class="background-imag">
@@ -127,7 +136,7 @@ export default {
       </div>
 
       <div class="booking">
-        dsadfsdfassdsd
+        <h2 class="title">Бронирование</h2>
       </div>
     </div>
   </div>
@@ -244,6 +253,14 @@ span{
   flex-wrap: nowrap;
 }
 
+.product-title {
+  font-size: 24px;
+  padding: 32px 150px 0px 150px;
+  margin: 0;
+  color: #333333;
+  word-wrap: break-word; /* Добавленное свойство для переноса текста */
+}
+
 .image {
   margin-right: 8px;
   flex: 2;
@@ -288,7 +305,7 @@ span{
 
 .booking{
   background-color: red;
-  padding: 16px;
+  padding: 8px 16px;
 }
 /* БЛОК 2 */
 
