@@ -10,7 +10,7 @@ export default {
     return {
       isModalOpen: false, // Инициализируем свойство isModalOpen
       isMenuOpen: false,
-      isSticky: false,
+      isSticky: false
     };
   },
   mounted() {
@@ -69,6 +69,7 @@ export default {
           <p>+7 (999) 124-23-45</p>
           <!-- КНОПКА "ВОЙТИ" -->
           <button class="login_button" @click="openModal">Войти</button>
+
         </div>
       </ul>
     </nav>

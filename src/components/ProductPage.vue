@@ -13,7 +13,8 @@ export default {
       isModalOpen: false,
       isMenuOpen: false,
       products: [],
-      selectedProductTitle: '', // Заголовок выбранного круиза
+      productTitle: '', // Заголовок выбранного круиза
+      productDate: '',
       product: null,
       isSticky: false
     };
@@ -25,7 +26,9 @@ export default {
     const productId = this.$route.params.id; // Получаем id круиза из параметров маршрута
     axios.get(`http://localhost:3000/products/${productId}`)
         .then(response => {
-          this.selectedProductTitle = response.data.title; // Устанавливаем заголовок выбранного круиза
+          this.productTitle = response.data.title;
+          this.productDate = response.data.cruiseDate;
+
         })
         .catch(error => {
           console.error('Ошибка при загрузке круиза:', error);
@@ -106,7 +109,11 @@ export default {
   </header>
 
   <div class="block_1">
-    <h3 class="product-title">{{ selectedProductTitle }}</h3>
+    <div class="info-content">
+      <h3 class="product-title">{{ productTitle }}</h3>
+      <h3 class="product-date">{{ productDate }}</h3>
+    </div>
+
     <div class="block_1-images">
       <div class="image">
         <img src="/src/assets/6.jpg" alt="Background Image" class="background-imag">
@@ -253,12 +260,19 @@ span{
   flex-wrap: nowrap;
 }
 
-.product-title {
+.product-title,
+.product-date{
   font-size: 24px;
   padding: 32px 150px 0px 150px;
   margin: 0;
   color: #333333;
   word-wrap: break-word; /* Добавленное свойство для переноса текста */
+}
+
+.info-content{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .image {
