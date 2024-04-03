@@ -25,7 +25,7 @@
           Содержимое 1...
         </div>
         <div class="tab-content" id="content-2">
-          <router-link :to="'/'" class="btn-exit">Выйти из аккаунта</router-link>
+          <button class="btn-exit" >Выйти из аккаунта</button>
         </div>
       </div>
 
@@ -37,9 +37,11 @@
 
 <script>
 import Footer from "@/components/Footer.vue";
+import Menu from "@/components/Menu.vue";
 
 export default {
   components: {
+    Menu,
     Footer
   },
   data() {
@@ -50,6 +52,7 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
   },
+
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
   },

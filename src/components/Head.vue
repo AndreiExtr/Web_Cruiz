@@ -1,7 +1,15 @@
 <script>
 import Menu from './Menu.vue';
 import Login from './Login.vue'; // Импортируем компонент Login.vue
+
 export default {
+  name: 'Head',
+  props: {
+    isCruisePage: {
+      type: Boolean,
+      default: false
+    }
+  },
   components: {
     Menu,
     Login // Регистрируем компонент Login.vue
@@ -19,7 +27,11 @@ export default {
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
   },
+
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     openModal() {
       this.isModalOpen = true; // Открываем модальное окно
     },
@@ -56,14 +68,27 @@ export default {
             <path d="M3 8H21C21.2652 8 21.5196 7.89464 21.7071 7.70711C21.8946 7.51957 22 7.26522 22 7C22 6.73478 21.8946 6.48043 21.7071 6.29289C21.5196 6.10536 21.2652 6 21 6H3C2.73478 6 2.48043 6.10536 2.29289 6.29289C2.10536 6.48043 2 6.73478 2 7C2 7.26522 2.10536 7.51957 2.29289 7.70711C2.48043 7.89464 2.73478 8 3 8ZM21 16H3C2.73478 16 2.48043 16.1054 2.29289 16.2929C2.10536 16.4804 2 16.7348 2 17C2 17.2652 2.10536 17.5196 2.29289 17.7071C2.48043 17.8946 2.73478 18 3 18H21C21.2652 18 21.5196 17.8946 21.7071 17.7071C21.8946 17.5196 22 17.2652 22 17C22 16.7348 21.8946 16.4804 21.7071 16.2929C21.5196 16.1054 21.2652 16 21 16ZM21 11H3C2.73478 11 2.48043 11.1054 2.29289 11.2929C2.10536 11.4804 2 11.7348 2 12C2 12.2652 2.10536 12.5196 2.29289 12.7071C2.48043 12.8946 2.73478 13 3 13H21C21.2652 13 21.5196 12.8946 21.7071 12.7071C21.8946 12.5196 22 12.2652 22 12C22 11.7348 21.8946 11.4804 21.7071 11.2929C21.5196 11.1054 21.2652 11 21 11Z"/>
           </svg>
         </li>
+        <!--  ИКОНКА "БУРГЕР"-->
 
-        <div class="navbar_logo"><img alt="Logo" src="/src/assets/logo.svg"></div>
-        <li><a href="#">ГЛАВНАЯ</a></li>
-        <li><a href="#section1" onclick="scrollToSection(event)">О НАС</a></li>
-        <li><a href="#section2" onclick="scrollToSection(event)">КРУИЗЫ</a></li>
-        <li><a href="#section3" onclick="scrollToSection(event)">СПЕЦПРЕДЛОЖЕНИЯ</a></li>
-        <li><a href="#section4" onclick="scrollToSection(event)">НОВОСТИ</a></li>
-        <li><a href="#section5" onclick="scrollToSection(event)">КОНТАКТЫ</a></li>
+        <!-- Ваш код для логотипа и разделов -->
+        <div v-if="!isCruisePage" class="logo_and_sections">
+          <div class="navbar_logo"><img alt="Logo" src="/src/assets/logo.svg"></div>
+          <li><a href="#">ГЛАВНАЯ</a></li>
+          <li><a href="#section1" onclick="scrollToSection(event)">О НАС</a></li>
+          <li><a href="#section2" onclick="scrollToSection(event)">КРУИЗЫ</a></li>
+          <li><a href="#section3" onclick="scrollToSection(event)">СПЕЦПРЕДЛОЖЕНИЯ</a></li>
+          <li><a href="#section4" onclick="scrollToSection(event)">НОВОСТИ</a></li>
+          <li><a href="#section5" onclick="scrollToSection(event)">КОНТАКТЫ</a></li>
+        </div>
+        <!-- Ваш код для логотипа и разделов -->
+
+        <!-- Хлебные крошки на странице просмотра круиза -->
+        <div v-if="isCruisePage" class="breadcrumbs">
+          <div class="main_page" @click="goBack">Главная</div>
+          <span>•</span>
+          <p>Круиз</p>
+        </div>
+        <!-- Хлебные крошки на странице просмотра круиза -->
 
         <div class="action">
           <svg class="icon_number" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" >
@@ -72,16 +97,18 @@ export default {
           <p class="number">+7 (999) 124-23-45</p>
 
           <!-- КНОПКА "ВОЙТИ" -->
-          <button class="login_button" @click="openModal">Войти</button>
+<!--          <button class="login_button" @click="openModal">Войти</button>-->
 
+          <!-- Кнопка "Войти" -->
+          <button v-if="!loggedIn" class="login_button" @click="openModal">Войти</button>
+          <!-- Кнопка "Личный кабинет" -->
+          <router-link :to="'/account/'" v-else class="personal_cabinet_button">Личный кабинет</router-link>
         </div>
       </ul>
     </nav>
   </header>
   <Menu :isMenuOpen="isMenuOpen" :toggleMenu="toggleMenu" @close-menu="closeMenu"/>
   <Login :isModalOpen="isModalOpen" @close-modal="closeModal" />
-
-
 </template>
 
 <style scoped>
@@ -155,6 +182,20 @@ header {
   position: fixed;
 }
 
+.breadcrumbs{
+  font-size: 16px;
+  font-weight: 400;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+span{
+  padding-right: 6px;
+  padding-left: 6px;
+}
+
 .navbar {
   display: flex;
   margin: 0;
@@ -162,6 +203,20 @@ header {
   justify-content: space-between;
   align-items: center;
   list-style-type: none;
+}
+
+.main_page{
+  color: #007bff;
+  cursor: pointer;
+}
+.main_page:hover{
+  color: #0056b3;
+}
+
+.logo_and_sections{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .navbar_logo {
@@ -218,7 +273,8 @@ nav ul li a:hover {
   font-size: 16px;
 }
 
-.login_button {
+.login_button,
+.personal_cabinet_button{
   background-color: #007bff; /* Цвет фона кнопки */
   border-radius: 5px;
   margin-left: 24px;
@@ -229,7 +285,8 @@ nav ul li a:hover {
   cursor: pointer;
 }
 
-.login_button:hover {
+.login_button:hover,
+.personal_cabinet_button:hover{
   background-color: #0056b3; /* Цвет фона кнопки */
   border: none; /* Убираем границу кнопки */
   cursor: pointer;
@@ -241,5 +298,4 @@ nav ul li a:hover {
   /* дополнительные стили для кнопки в хедере */
   margin-left: 10px; /* отступ слева */
 }
-
 </style>

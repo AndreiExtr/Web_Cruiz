@@ -95,12 +95,13 @@ export default {
     },
     verifySMS() {
       if (this.smsCodeIsValid()) {
+        // Сохраняем информацию о входе пользователя в localStorage
+        localStorage.setItem('loggedIn', 'true');
         this.$router.push('/account');
       } else {
-        // Выводите сообщение об ошибке, если код неверный
+        // Выводим сообщение об ошибке, если код неверный
       }
     },
-
 
     resetModalState() {
       this.showAlternativeContent = false; // Установка флага в true для отображения альтернативного контента

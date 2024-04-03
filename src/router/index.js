@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { createStore } from 'vuex';
 import MainPage from '../components/MainPage.vue';
 import ProductPage from '../components/ProductPage.vue';
 import SwaggerUI from "../../SwaggerUI.vue";
@@ -32,3 +33,22 @@ const router = createRouter({
     routes
 });
 export default router;
+
+// export const store = createStore({
+//     state: {
+//         loggedIn: false
+//     },
+//     mutations: {
+//         login(state) {
+//             state.loggedIn = true;
+//         },
+//         logout(state) {
+//             state.loggedIn = false;
+//         }
+//     },
+//     getters: {
+//         isLoggedIn: state => state.loggedIn
+//     }
+// });
+
+
