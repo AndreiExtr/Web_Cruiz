@@ -13,12 +13,18 @@ const routes = [
     {
         path: '/account',
         name: 'Account',
-        component: AccountPage
+        component: AccountPage,
+        meta: {
+            breadcrumbName: 'Личный кабинет' // Наименование хлебных крошек для страницы круизов
+        }
     },
     {
         path: '/product/:id', // пример динамического маршрута с параметром id
         name: 'ProductPage',
-        component: ProductPage
+        component: ProductPage,
+        meta: {
+            breadcrumbName: 'Круизы' // Наименование хлебных крошек для страницы круизов
+        }
     },
     {
         path: '/api', // добавляем новый маршрут для Swagger UI

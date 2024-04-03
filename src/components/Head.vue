@@ -10,6 +10,16 @@ export default {
       default: false
     },
   },
+  computed: {
+    hasBreadcrumb() {
+      // Проверяем, есть ли метаданные для хлебных крошек
+      return !!this.$route.meta.breadcrumbName;
+    },
+    breadcrumbName() {
+      // Получаем наименование хлебных крошек из метаданных текущего маршрута
+      return this.$route.meta.breadcrumbName || '';
+    }
+  },
   components: {
     Menu,
     Login // Регистрируем компонент Login.vue
@@ -86,7 +96,7 @@ export default {
         <div v-if="isCruisePage" class="breadcrumbs">
           <div class="main_page" @click="goBack">Главная</div>
           <span>•</span>
-          <p>Круиз</p>
+          <p>{{ breadcrumbName }}</p>
         </div>
         <!-- Хлебные крошки на странице просмотра круиза -->
 
