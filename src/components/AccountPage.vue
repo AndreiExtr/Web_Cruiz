@@ -1,16 +1,17 @@
 
 <template>
   <header :class="{ 'sticky': isSticky }">
-    <nav>
-      <ul class="navbar">
-        <!-- Хлебные крошки -->
-        <div class="breadcrumbs_acc">
-          <div class="main_page" @click="goToHomePage">Главная</div>
-          <span>•</span>
-          <p>Личный кабинет</p>
-        </div>
-      </ul>
-    </nav>
+    <Head :isCruisePage="true" />
+<!--    <nav>-->
+<!--      <ul class="navbar">-->
+<!--        &lt;!&ndash; Хлебные крошки &ndash;&gt;-->
+<!--        <div class="breadcrumbs_acc">-->
+<!--          <div class="main_page" @click="goToHomePage">Главная</div>-->
+<!--          <span>•</span>-->
+<!--          <p>Личный кабинет</p>-->
+<!--        </div>-->
+<!--      </ul>-->
+<!--    </nav>-->
   </header>
   <div class="block0">
     <div class="block01">
@@ -38,9 +39,11 @@
 <script>
 import Footer from "@/components/Footer.vue";
 import Menu from "@/components/Menu.vue";
+import Head from "@/components/Head.vue";
 
 export default {
   components: {
+    Head,
     Menu,
     Footer
   },

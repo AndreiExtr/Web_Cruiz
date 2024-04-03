@@ -6,6 +6,12 @@ import Head from '@/components/Head.vue';
 
 export default {
   name: 'CruisePage',
+  props: {
+    isAccountPage: {
+      type: Boolean,
+      default: true
+    }
+  },
   components: {
     Login,
     Head,
@@ -352,47 +358,6 @@ header {
 }
 
 </style>
-
-<!--//.main_page{
-//  color: #007bff;  /* Цвет фона текста */
-//  cursor: pointer;
-//}
-//.main_page:hover{
-//  color: #0056b3; /* Цвет фона кнопки */
-//}
-//
-//.navbar {
-//  height: auto;
-//  display: flex;
-//  margin: 0;
-//  padding: 16px 48px;
-//  justify-content: space-between;
-//  align-items: center;
-//  list-style-type: none;
-//}
-//
-//.icon_nav{
-//  margin-left: auto;
-//  display: flex;
-//  justify-content: center; /* Выравнивание по горизонтали */
-//  align-items: center;
-//}
-//
-//.login_button {
-//  background-color: #007bff; /* Цвет фона кнопки */
-//  border-radius: 5px;
-//  margin-left: 24px;
-//  color: #fff; /* Цвет текста кнопки */
-//  padding: 10px 20px; /* Отступы внутри кнопки */
-//  font-size: 14px; /* Размер шрифта кнопки */
-//  border: none; /* Убираем границу кнопки */
-//  cursor: pointer;
-//}
-//.login_button:hover {
-//  background-color: #0056b3; /* Цвет фона кнопки */
-//  border: none; /* Убираем границу кнопки */
-//  cursor: pointer;
-//}-->
 
 <!--    <nav>-->
 <!--      <ul class="navbar">-->
