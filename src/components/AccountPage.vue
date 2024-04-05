@@ -2,16 +2,6 @@
 <template>
   <header :class="{ 'sticky': isSticky }">
     <Head :isCruisePage="true" />
-<!--    <nav>-->
-<!--      <ul class="navbar">-->
-<!--        &lt;!&ndash; Хлебные крошки &ndash;&gt;-->
-<!--        <div class="breadcrumbs_acc">-->
-<!--          <div class="main_page" @click="goToHomePage">Главная</div>-->
-<!--          <span>•</span>-->
-<!--          <p>Личный кабинет</p>-->
-<!--        </div>-->
-<!--      </ul>-->
-<!--    </nav>-->
   </header>
   <div class="block0">
     <div class="block01">
@@ -26,7 +16,9 @@
           Содержимое 1...
         </div>
         <div class="tab-content" id="content-2">
-          <button class="btn-exit" >Выйти из аккаунта</button>
+<!--          <button class="btn-exit" @click="logout">Выйти из аккаунта</button>-->
+          <button class="btn-exit" @click="logout">Выйти из аккаунта</button>
+
         </div>
       </div>
 
@@ -90,37 +82,9 @@ header {
   position: fixed;
 }
 
-.navbar {
-  height: auto;
-  display: flex;
-  margin: 0;
-  padding: 16px 48px;
-  justify-content: space-between;
-  align-items: center;
-  list-style-type: none;
-}
-
-.main_page{
-  color: #007bff;  /* Цвет фона текста */
-  cursor: pointer;
-}
-
-.main_page:hover{
-  color: #0056b3; /* Цвет фона кнопки */
-}
-
 span{
   padding-right: 6px;
   padding-left: 6px;
-}
-
-.breadcrumbs_acc{
-  font-size: 16px;
-  font-weight: 400;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* БЛОК 1 */

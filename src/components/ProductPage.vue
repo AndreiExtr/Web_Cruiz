@@ -5,13 +5,6 @@ import axios from "axios";
 import Head from '@/components/Head.vue';
 
 export default {
-  name: 'CruisePage',
-  props: {
-    isAccountPage: {
-      type: Boolean,
-      default: true
-    }
-  },
   components: {
     Login,
     Head,

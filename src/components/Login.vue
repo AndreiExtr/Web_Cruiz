@@ -2,7 +2,6 @@
 <template>
   <div class="modal" :class="{ 'open': isModalOpen }">
     <div class="modal-content">
-
       <div class="head_modal">
         <h2 class="title_modal">Вход</h2>
         <span class="close" @click="closeModal">
@@ -61,6 +60,7 @@ export default {
     };
   },
   methods: {
+
     async checkPhoneNumber() {
       const phoneRegex = /^(?:\+7|8)\s?\d{3}\s?\d{3}\s?\d{2}\s?\d{2}$/;
 

@@ -4,17 +4,6 @@ import Footer from "@/components/Footer.vue";
 import axios from "axios";
 
 export default {
-  name: 'AccountPage',
-  props: {
-    isCruisePage: {
-      type: Boolean,
-      default: false
-    },
-    isAccountPage: {
-      type: Boolean,
-      default: true
-    }
-  },
   components: {
     Head,
     Footer
