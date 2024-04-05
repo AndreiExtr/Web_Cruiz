@@ -159,7 +159,7 @@ export default {
               </div>
               <p class="product-price">от {{ product.count }} ₽/ чел.</p>
               <p class="product-description">{{ product.description }}</p>
-              <router-link :to="'/product/' + product.id" class="btn-details">Выбрать каюту</router-link>
+              <router-link :to="'/product/' + product.id" class="btn-details">Выбар каюты</router-link>
             </div>
           </div>
           <!--   ШАБЛОН КАРТОЧКИ (популярные круизы)-->
