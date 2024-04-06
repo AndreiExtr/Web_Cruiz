@@ -23,7 +23,7 @@ const routes = [
         name: 'ProductPage',
         component: ProductPage,
         meta: {
-            breadcrumbName: 'Круизы' // Наименование хлебных крошек для страницы круизов
+            breadcrumbName: 'Круиз' // Наименование хлебных крошек для страницы круизов
         }
     },
     {

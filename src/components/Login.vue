@@ -61,6 +61,12 @@ export default {
   },
   methods: {
 
+    logout() {
+      // Логика для выхода пользователя
+      localStorage.removeItem('loggedIn'); // Удаляем информацию о входе пользователя из localStorage
+      this.$emit('logout-success'); // Вызываем событие logout-success
+    },
+
     async checkPhoneNumber() {
       const phoneRegex = /^(?:\+7|8)\s?\d{3}\s?\d{3}\s?\d{2}\s?\d{2}$/;
 
@@ -93,10 +99,12 @@ export default {
     smsCodeIsValid() {
       return this.smsCode === this.expectedSMSCode; // Проверяем совпадение введенного и ожидаемого кода
     },
+
     verifySMS() {
       if (this.smsCodeIsValid()) {
         // Сохраняем информацию о входе пользователя в localStorage
         localStorage.setItem('loggedIn', 'true');
+        this.$emit('login-success'); // Вызываем событие login-success
         this.$router.push('/account');
       } else {
         // Выводим сообщение об ошибке, если код неверный
