@@ -14,6 +14,13 @@ export default {
       default: true
     }
   },
+  created() {
+    const loggedIn = localStorage.getItem('loggedIn');
+    this.loggedIn = loggedIn === 'true';
+    if (loggedIn === null) {
+      this.loggedIn = false; // Устанавливаем значение loggedIn в false при первом посещении сайта
+    }
+  },
   computed: {
     hasBreadcrumb() {
       // Проверяем, есть ли метаданные для хлебных крошек
@@ -32,7 +39,8 @@ export default {
     return {
       isModalOpen: false, // Инициализируем свойство isModalOpen
       isMenuOpen: false,
-      isSticky: false
+      isSticky: false,
+      loggedIn: false // Добавляем свойство loggedIn, чтобы отслеживать состояние входа пользователя
     };
   },
   mounted() {
@@ -44,9 +52,14 @@ export default {
 
   methods: {
 
-    // ваш текущий код
     handleLoginSuccess() {
-      this.isAccountPage = true; // Устанавливаем значение isAccountPage в true при успешной аутентификации
+      this.loggedIn = true; // Устанавливаем значение loggedIn в true при успешной аутентификации
+      localStorage.setItem('loggedIn', 'true'); // Сохраняем состояние входа в localStorage
+      this.closeModal(); // Закрываем модальное окно
+    },
+
+    goToAccountPage() {
+      this.$router.push('/account'); // Перенаправляем пользователя на страницу личного кабинета
     },
 
     goBack() {
@@ -117,7 +130,7 @@ export default {
           <p class="number">+7 (999) 124-23-45</p>
 
           <!-- Кнопка "Войти" -->
-          <button v-if="isAccountPage" class="login_button" @click="openModal">Войти</button>
+          <button v-if="!loggedIn" class="login_button" @click="openModal">Войти</button>
           <!-- Кнопка "Личный кабинет" -->
           <button v-else class="account_button" @click="goToAccountPage">Личный кабинет</button>
 
@@ -126,7 +139,7 @@ export default {
     </nav>
   </header>
   <Menu :isMenuOpen="isMenuOpen" :toggleMenu="toggleMenu" @close-menu="closeMenu"/>
-  <Login :isModalOpen="isModalOpen" @close-modal="closeModal" />
+  <Login :isModalOpen="isModalOpen" @close-modal="closeModal" @login-success="handleLoginSuccess" />
 </template>
 
 <style scoped>
@@ -292,7 +305,7 @@ nav ul li a:hover {
 }
 
 .login_button,
-.personal_cabinet_button{
+.account_button{
   background-color: #007bff; /* Цвет фона кнопки */
   border-radius: 5px;
   margin-left: 24px;
@@ -304,7 +317,7 @@ nav ul li a:hover {
 }
 
 .login_button:hover,
-.personal_cabinet_button:hover{
+.account_button:hover{
   background-color: #0056b3; /* Цвет фона кнопки */
   border: none; /* Убираем границу кнопки */
   cursor: pointer;

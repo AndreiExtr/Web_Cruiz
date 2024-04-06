@@ -52,6 +52,12 @@ export default {
     window.removeEventListener('scroll', this.handleScroll);
   },
   methods:{
+
+    logout() {
+      // Логика для выхода пользователя
+      this.loggedIn = false; // Сбрасываем состояние входа пользователя
+    },
+
     goToHomePage() {
       this.$router.push('/'); // Переход на главную страницу
     },

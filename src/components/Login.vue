@@ -93,10 +93,12 @@ export default {
     smsCodeIsValid() {
       return this.smsCode === this.expectedSMSCode; // Проверяем совпадение введенного и ожидаемого кода
     },
+
     verifySMS() {
       if (this.smsCodeIsValid()) {
         // Сохраняем информацию о входе пользователя в localStorage
         localStorage.setItem('loggedIn', 'true');
+        this.$emit('login-success'); // Вызываем событие login-success
         this.$router.push('/account');
       } else {
         // Выводим сообщение об ошибке, если код неверный
