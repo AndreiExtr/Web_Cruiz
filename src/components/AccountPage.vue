@@ -1,7 +1,7 @@
 
 <template>
   <header :class="{ 'sticky': isSticky }">
-    <Head :isCruisePage="true" />
+    <Head :isCruisePage="true" @logout-success="handleLogoutSuccess"/>
   </header>
   <div class="block0">
     <div class="block01">
@@ -17,7 +17,7 @@
         </div>
         <div class="tab-content" id="content-2">
 <!--          <button class="btn-exit" @click="logout">Выйти из аккаунта</button>-->
-          <button class="btn-exit" @click="logout">Выйти из аккаунта</button>
+          <router-link :to="'/'" class="btn-exit" @click="logout">Выйти из аккаунта</router-link>
 
         </div>
       </div>
@@ -42,6 +42,7 @@ export default {
   data() {
     return {
       isSticky: false,
+      loggedIn: false // Добавляем значение loggedIn
     };
   },
   mounted() {
@@ -52,10 +53,14 @@ export default {
     window.removeEventListener('scroll', this.handleScroll);
   },
   methods:{
+    handleLogoutSuccess() {
+      this.loggedIn = false; // Устанавливаем значение loggedIn в false при успешном выходе из аккаунта
+    },
 
     logout() {
       // Логика для выхода пользователя
-      this.loggedIn = false; // Сбрасываем состояние входа пользователя
+      localStorage.removeItem('loggedIn'); // Удаляем информацию о входе пользователя из localStorage
+      this.$emit('logout-success'); // Вызываем событие logout-success
     },
 
     goToHomePage() {
@@ -71,6 +76,7 @@ export default {
   }
 }
 </script>
+
 
 
 <style scoped>

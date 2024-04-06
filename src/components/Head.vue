@@ -44,6 +44,12 @@ export default {
     };
   },
   mounted() {
+
+    // Проверяем, вошел ли пользователь при загрузке страницы
+    if (localStorage.getItem('loggedIn')) {
+      this.loggedIn = true;
+    }
+
     window.addEventListener('scroll', this.handleScroll);
   },
   beforeDestroy() {

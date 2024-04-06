@@ -61,6 +61,12 @@ export default {
   },
   methods: {
 
+    logout() {
+      // Логика для выхода пользователя
+      localStorage.removeItem('loggedIn'); // Удаляем информацию о входе пользователя из localStorage
+      this.$emit('logout-success'); // Вызываем событие logout-success
+    },
+
     async checkPhoneNumber() {
       const phoneRegex = /^(?:\+7|8)\s?\d{3}\s?\d{3}\s?\d{2}\s?\d{2}$/;
 
