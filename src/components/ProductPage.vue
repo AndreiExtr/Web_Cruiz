@@ -142,32 +142,44 @@ export default {
     <div class="block_4-choice">
       <h2 class="title">Выбор каюты</h2>
 
-      <div class="block_4-image">
-        <img src="/src/assets/Схема%20палубы.png" alt="Background Image" class="background-imag">
+      <div class="block_4-booking">
+        <div class="block_4-image">
+          <img src="/src/assets/Схема%20палубы.png" alt="Background Image" class="background-imag">
+        </div>
+        <form>
+          <div class="form-row">
+            <label for="cabin">Номер каюты:</label>
+            <input type="text" id="cabin" name="cabin">
+
+            <label for="quantity">Количество человек:</label>
+            <select id="quantity" name="quantity">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="surname">Фамилия:</label>
+            <input type="text" id="surname" name="surname">
+
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name">
+
+            <label for="patronymic">Отчество:</label>
+            <input type="text" id="patronymic" name="patronymic">
+          </div>
+
+          <div class="form-row">
+            <label for="phone">Номер телефона:</label>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
+          </div>
+
+          <button class="btn-forms">Забронировать</button>
+        </form>
+
       </div>
 
-      <form>
-        <label for="quantity">Количество человек:</label>
-        <select id="quantity" name="quantity">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select><br><br>
-
-        <label for="surname">Фамилия:</label>
-        <input type="text" id="surname" name="surname"><br><br>
-
-        <label for="name">Имя:</label>
-        <input type="text" id="name" name="name"><br><br>
-
-        <label for="patronymic">Отчество:</label>
-        <input type="text" id="patronymic" name="patronymic"><br><br>
-
-        <label for="phone">Номер телефона:</label>
-        <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"><br><br>
-
-        <button  class="btn-forms">Забронировать</button>
-      </form>
     </div>
 
 
@@ -298,7 +310,7 @@ header {
 .booking{
   width: 200px;
   background-color: #ffffff;
-  padding: 8px 16px;
+  padding: 16px;
   height: max-content;
 }
 
@@ -316,7 +328,6 @@ header {
   color: #fff;
   border: none;
   padding: 8px 20px;
-  margin-bottom: 16px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -351,23 +362,49 @@ header {
 }
 
 .block_4-image {
-  margin-right: 8px;
-  flex: 2;
-  height: auto; /* Автоматическая высота для левой картинки */
+  margin-right: 32px;
+}
+
+.block_4-image img {
+  width: 100%; /* Ширина изображения займет всю доступную ширину */
+  height: auto; /* Автоматическая высота для сохранения пропорций */
+}
+
+.block_4-booking{
+  display: flex;
+  gap: 24px;
 }
 
 /* Стили для формы выбора каюты */
 .block_4-choice form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background-color: #EDF5FF;
   border-radius: 4px;
-  width: 360px;
-  margin-top: 20px;
+  width: 400px;
   padding: 16px;
 }
 
+.form-row {
+  width: 100%; /* Добавляем ширину для полного заполнения контейнера */
+  margin-bottom: 10px;
+}
+
+.form-row label {
+  width: auto; /* Задаем фиксированную ширину для меток */
+}
+
+.form-row input,
+.form-row select {
+  flex: 1;
+  margin-bottom: 8px; /* Добавляем небольшое расстояние между элементами */
+}
+
 .block_4-choice form label {
+  font-size: 16px;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .block_4-choice form select,
@@ -380,18 +417,7 @@ header {
   box-sizing: border-box;
 }
 
-.block_4-choice form input[type="submit"] {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
 
-.block_4-choice form input[type="submit"]:hover {
-  background-color: #45a049;
-}
 /* БЛОК 4 */
 
 /* БЛОК 5 */

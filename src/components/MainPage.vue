@@ -422,6 +422,7 @@ h1 {
 .text{
   margin-right: 64px;
 }
+
 .title{
   font-weight: lighter;
   font-size: 20px;
