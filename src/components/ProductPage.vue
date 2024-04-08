@@ -141,6 +141,7 @@ export default {
   <div class="block_4">
     <div class="block_4-choice">
       <h2 class="title">Выбор каюты</h2>
+
       <div class="block_4-image">
         <img src="/src/assets/Схема%20палубы.png" alt="Background Image" class="background-imag">
       </div>
@@ -165,9 +166,7 @@ export default {
         <label for="phone">Номер телефона:</label>
         <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"><br><br>
 
-        <!-- Добавьте другие поля или элементы формы по вашему усмотрению -->
-
-        <input type="submit" value="Отправить">
+        <button  class="btn-forms">Забронировать</button>
       </form>
     </div>
 
