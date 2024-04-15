@@ -22,7 +22,7 @@ export default {
       isSticky: false,
 
       formData: {
-        userId: '',
+        productId: '',
         cabinNumber: '',
         numberOfPeople: '1',
         surName: '',
@@ -33,11 +33,28 @@ export default {
     };
   },
   methods: {
+    // submitForm() {
+    //   axios.post('http://localhost:3000/users', this.formData)
+    //       .then(response => console.log(response))
+    //       .catch(error => console.log(error))
+    // },
+
     submitForm() {
+      // Отправка данных круиза на сервер
       axios.post('http://localhost:3000/users', this.formData)
-          .then(response => console.log(response))
-          .catch(error => console.log(error))
+          .then(response => {
+            // Логирование ответа от сервера в консоль
+            console.log(response);
+            // Перенаправление пользователя на страницу аккаунта
+            // this.$store.dispatch('addCruise', this.formData);
+            this.$router.push('/account');
+          })
+          .catch(error => {
+            // Логирование ошибки в консоль
+            console.error('Ошибка при бронировании круиза:', error);
+          });
     },
+
 
     scrollToTop() {
       window.scrollTo({
@@ -197,8 +214,6 @@ export default {
 
       </div>
     </div>
-
-
   </div>
 
   <div class="block_5">
