@@ -15,9 +15,9 @@ export default {
       isModalOpen: false,
       isMenuOpen: false,
       products: [],
-      productTitle: '', // Заголовок выбранного круиза
-      productDate: '',
-      productCount: '',
+      title: '',
+      cruiseDate: '',
+      count: '',
       product: null,
       isSticky: false,
 
@@ -33,20 +33,16 @@ export default {
     };
   },
   methods: {
-    // submitForm() {
-    //   axios.post('http://localhost:3000/users', this.formData)
-    //       .then(response => console.log(response))
-    //       .catch(error => console.log(error))
-    // },
 
     submitForm() {
+      this.formData.productId = this.$route.params.id; // Присваиваем productId текущего круиза из параметров маршрута
+
       // Отправка данных круиза на сервер
       axios.post('http://localhost:3000/users', this.formData)
           .then(response => {
             // Логирование ответа от сервера в консоль
             console.log(response);
-            // Перенаправление пользователя на страницу аккаунта
-            // this.$store.dispatch('addCruise', this.formData);
+
             this.$router.push('/account');
           })
           .catch(error => {
@@ -82,9 +78,9 @@ export default {
     const productId = this.$route.params.id; // Получаем id круиза из параметров маршрута
     axios.get(`http://localhost:3000/products/${productId}`)
         .then(response => {
-          this.productTitle = response.data.title;
-          this.productDate = response.data.cruiseDate;
-          this.productCount = response.data.count;
+          this.title = response.data.title;
+          this.cruiseDate = response.data.cruiseDate;
+          this.count = response.data.count;
         })
         .catch(error => {
           console.error('Ошибка при загрузке круиза:', error);
@@ -127,8 +123,8 @@ export default {
 
   <div class="block_1">
     <div class="info-content">
-      <h3 class="product-title">{{ productTitle }}</h3>
-      <h3 class="product-date">{{ productDate }}</h3>
+      <h3 class="product-title">{{ title }}</h3>
+      <h3 class="product-date">{{ cruiseDate }}</h3>
     </div>
 
     <div class="block_1-images">
@@ -160,7 +156,7 @@ export default {
       </div>
 
       <div class="booking">
-        <h3 class="booking_product-price">от {{ productCount }} ₽/ чел.</h3>
+        <h3 class="booking_product-price">от {{ count }} ₽/ чел.</h3>
         <button  class="btn-forms">Выбрать каюту</button>
       </div>
     </div>

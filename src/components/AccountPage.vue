@@ -1,7 +1,7 @@
 
 <template>
   <header :class="{ 'sticky': isSticky }">
-    <Head :isCruisePage="true" @logout-success="handleLogoutSuccess"/>
+    <Head :isCruisePage="true" :isAccountPage="false" @logout-success="handleLogoutSuccess"/>
   </header>
   <div class="block0">
     <div class="block01">
@@ -28,9 +28,7 @@
           <router-link :to="'/'" class="btn-exit" @click="logout">Выйти из аккаунта</router-link>
         </div>
       </div>
-
     </div>
-
   </div>
   <Footer />
 </template>
@@ -55,6 +53,7 @@ export default {
     };
   },
   mounted() {
+    // Устанавливаем productId в formData
     axios.get('http://localhost:3000/users')
         .then(response => {
           this.products = response.data;
