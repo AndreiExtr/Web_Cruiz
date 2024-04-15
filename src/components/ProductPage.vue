@@ -17,9 +17,47 @@ export default {
       products: [],
       productTitle: '', // Заголовок выбранного круиза
       productDate: '',
+      productCount: '',
       product: null,
-      isSticky: false
+      isSticky: false,
+
+      formData: {
+        userId: '',
+        cabinNumber: '',
+        numberOfPeople: '1',
+        surName: '',
+        firstName: '',
+        middleName: '',
+        phoneNumber: ''
+      }
     };
+  },
+  methods: {
+    submitForm() {
+      axios.post('http://localhost:3000/users', this.formData)
+          .then(response => console.log(response))
+          .catch(error => console.log(error))
+    },
+
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth" // делает прокрутку плавной
+      });
+    },
+    openModal() {
+      this.isModalOpen = true;
+    },
+    closeModal() {
+      this.isModalOpen = false;
+    },
+    handleScroll() {
+      if (window.pageYOffset > 0) {
+        this.isSticky = true;
+      } else {
+        this.isSticky = false;
+      }
+    },
   },
   mounted() {
     this.scrollToTop()
@@ -61,27 +99,6 @@ export default {
   beforeDestroy() {
     window.removeEventListener('resize', this.calculateSlideWidth);
     window.removeEventListener('scroll', this.handleScroll);
-  },
-  methods: {
-    scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth" // делает прокрутку плавной
-      });
-    },
-    openModal() {
-      this.isModalOpen = true;
-    },
-    closeModal() {
-      this.isModalOpen = false;
-    },
-    handleScroll() {
-      if (window.pageYOffset > 0) {
-        this.isSticky = true;
-      } else {
-        this.isSticky = false;
-      }
-    },
   },
 };
 </script>
@@ -141,45 +158,44 @@ export default {
   <div class="block_4">
     <div class="block_4-choice">
       <h2 class="title">Выбор каюты</h2>
-
       <div class="block_4-booking">
         <div class="block_4-image">
           <img src="/src/assets/Схема%20палубы.png" alt="Background Image" class="background-imag">
         </div>
-        <form>
-          <div class="form-row">
-            <label for="cabin">Номер каюты:</label>
-            <input type="text" id="cabin" name="cabin">
 
-            <label for="quantity">Количество человек:</label>
-            <select id="quantity" name="quantity">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          </div>
+          <form @submit.prevent="submitForm">
+            <div class="form-row">
+              <label for="cabin">Номер каюты:</label>
+              <input type="text" v-model="formData.cabinNumber" id="cabin" name="cabin">
 
-          <div class="form-row">
-            <label for="surname">Фамилия:</label>
-            <input type="text" id="surname" name="surname">
+              <label for="quantity">Количество человек:</label>
+              <select v-model="formData.numberOfPeople" id="quantity" name="quantity">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
 
-            <label for="name">Имя:</label>
-            <input type="text" id="name" name="name">
+            <div class="form-row">
+              <label for="surname">Фамилия:</label>
+              <input type="text" v-model="formData.surName" id="surname" name="surname">
 
-            <label for="patronymic">Отчество:</label>
-            <input type="text" id="patronymic" name="patronymic">
-          </div>
+              <label for="name">Имя:</label>
+              <input type="text" v-model="formData.firstName" id="name" name="name">
 
-          <div class="form-row">
-            <label for="phone">Номер телефона:</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
-          </div>
+              <label for="patronymic">Отчество:</label>
+              <input type="text" v-model="formData.middleName" id="patronymic" name="patronymic">
+            </div>
 
-          <button class="btn-forms">Забронировать</button>
-        </form>
+            <div class="form-row">
+              <label for="phone">Номер телефона:</label>
+              <input type="tel" v-model="formData.phoneNumber" id="phone" name="phone" pattern="[0-9]{11}">
+            </div>
+
+            <button type="submit" class="btn-forms">Забронировать</button>
+          </form>
 
       </div>
-
     </div>
 
 
@@ -211,7 +227,37 @@ export default {
   <Footer />
   <Login :isModalOpen="isModalOpen" @close-modal="closeModal" />
 </template>
+<!--          <form @submit.prevent="submitForm">-->
+<!--            <div class="form-row">-->
+<!--              <label for="cabin">Номер каюты:</label>-->
+<!--              <input type="text" v-model="cabinNumber" id="cabin" name="cabin">-->
 
+<!--              <label for="quantity">Количество человек:</label>-->
+<!--              <select v-model="numberOfPeople" id="quantity" name="quantity">-->
+<!--                <option value="1">1</option>-->
+<!--                <option value="2">2</option>-->
+<!--                <option value="3">3</option>-->
+<!--              </select>-->
+<!--            </div>-->
+
+<!--            <div class="form-row">-->
+<!--              <label for="surname">Фамилия:</label>-->
+<!--              <input type="text" v-model="surName" id="surname" name="surname">-->
+
+<!--              <label for="name">Имя:</label>-->
+<!--              <input type="text" v-model="firstName" id="name" name="name">-->
+
+<!--              <label for="patronymic">Отчество:</label>-->
+<!--              <input type="text" v-model="middleName" id="patronymic" name="patronymic">-->
+<!--            </div>-->
+
+<!--            <div class="form-row">-->
+<!--              <label for="phone">Номер телефона:</label>-->
+<!--              <input type="tel" v-model="phoneNumber" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">-->
+<!--            </div>-->
+
+<!--            <button type="submit" class="btn-forms">Забронировать</button>-->
+<!--          </form>-->
 <style scoped>
 /* ШАПКА */
 header {

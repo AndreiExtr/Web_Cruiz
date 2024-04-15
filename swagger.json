@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Product API",
+    "title": "Cruiz API",
     "description": "API для управления продуктами и пользователями",
     "version": "1.0.0"
   },
@@ -134,15 +134,18 @@
           "type": "string",
           "description": "Отчество пользователя"
         },
-        "birthday": {
-          "type": "string",
-          "format": "date",
-          "description": "Дата рождения пользователя"
-        },
         "phoneNumber": {
           "type": "string",
           "format": "string",
           "description": "Номер телефона пользователя"
+        },
+        "numberOfPeople": {
+          "type": "integer",
+          "description": "Количество человек"
+        },
+        "cabinNumber": {
+          "type": "integer",
+          "description": "Номер каюты"
         }
       }
     }

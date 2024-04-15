@@ -81,9 +81,13 @@ export default {
           const isValidPhoneNumber = response.data.isValid;
 
           if (isValidPhoneNumber) {
-            // Пользователь существует, значит, круиз был забронирован
-            this.errorMessage = '';
-            this.showSMSVerification = true;
+            // Пользователь существует, проверяем, забронирован ли круиз
+            if (!isValidPhoneNumber) {
+              this.errorMessage = 'Вы с таким номером телефона не зарегистрированы';
+            } else {
+              this.errorMessage = ''; // Очищаем ошибку, если круиз забронирован
+              this.showSMSVerification = true;
+            }
           } else {
             // Пользователь не найден
             this.errorMessage = 'Вы не забронировали круиз.';
