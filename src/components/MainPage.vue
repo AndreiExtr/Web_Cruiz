@@ -411,6 +411,7 @@ h1 {
   background-color: #f8f8f8;
   box-sizing: border-box; /* Учитываем padding внутри ширины контейнера */
 }
+
 .block {
   padding: 64px 150px  64px 150px ;
   display: flex; /* Располагаем дочерние элементы внутри .block горизонтально */
@@ -421,6 +422,7 @@ h1 {
 .text{
   margin-right: 64px;
 }
+
 .title{
   font-weight: lighter;
   font-size: 20px;
