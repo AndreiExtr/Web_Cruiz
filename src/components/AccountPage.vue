@@ -1,29 +1,34 @@
 
 <template>
   <header :class="{ 'sticky': isSticky }">
-    <Head :isCruisePage="true" @logout-success="handleLogoutSuccess"/>
+    <Head :isCruisePage="true" :isAccountPage="false" @logout-success="handleLogoutSuccess"/>
   </header>
   <div class="block0">
     <div class="block01">
       <h2 class="title">Личный кабинет</h2>
       <div class="tab">
         <input checked id="tab-btn-1" name="tab-btn" type="radio" value="">
-        <label class="tab-1" for="tab-btn-1">Мои заказы</label>
+        <label class="tab-1" for="tab-btn-1">Мои круизы</label>
         <input id="tab-btn-2" name="tab-btn" type="radio" value="">
         <label class="tab-2" for="tab-btn-2">Настройки</label>
         <hr>
         <div class="tab-content" id="content-1">
-          Содержимое 1...
+          <div v-for="product in products" :key="product.id">
+            <!-- Отображение информации о круизе -->
+            <div class="product-info">
+              <p><strong>Название круиза:</strong> {{ product.title }}</p>
+              <p><strong>Дата круиза:</strong> {{ product.cruiseDate }}</p>
+              <p><strong>Сумма:</strong> {{ product.count }}</p>
+              <p><strong>Количество человек:</strong> {{ product.numberOfPeople }}</p>
+              <p><strong>Номер каюты:</strong> {{ product.cabinNumber }}</p>
+            </div>
+          </div>
         </div>
         <div class="tab-content" id="content-2">
-<!--          <button class="btn-exit" @click="logout">Выйти из аккаунта</button>-->
           <router-link :to="'/'" class="btn-exit" @click="logout">Выйти из аккаунта</router-link>
-
         </div>
       </div>
-
     </div>
-
   </div>
   <Footer />
 </template>
@@ -32,6 +37,7 @@
 import Footer from "@/components/Footer.vue";
 import Menu from "@/components/Menu.vue";
 import Head from "@/components/Head.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -41,11 +47,21 @@ export default {
   },
   data() {
     return {
+      products: [],
       isSticky: false,
       loggedIn: false // Добавляем значение loggedIn
     };
   },
   mounted() {
+    // Устанавливаем productId в formData
+    axios.get('http://localhost:3000/users')
+        .then(response => {
+          this.products = response.data;
+        })
+        .catch(error => {
+          console.error('Ошибка при загрузке круизов пользователя:', error);
+        });
+
     window.addEventListener('scroll', this.handleScroll);
   },
 
@@ -169,5 +185,15 @@ hr{
 
 .tab > input[type="radio"]:checked + label {
   color: #007bff;
+}
+
+.product-info{
+  width: 100%;
+  height: auto;
+  background-color: #f6f6f6;
+  padding: 16px;
+  border-radius: 4px;
+  border: 2px solid #d9d9d9;
+  margin-bottom: 16px;
 }
 </style>

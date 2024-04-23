@@ -15,14 +15,14 @@ export default {
       isModalOpen: false,
       isMenuOpen: false,
       products: [],
-      productTitle: '', // Заголовок выбранного круиза
-      productDate: '',
-      productCount: '',
+      title: '',
+      cruiseDate: '',
+      count: '',
       product: null,
       isSticky: false,
 
       formData: {
-        userId: '',
+        productId: '',
         cabinNumber: '',
         numberOfPeople: '1',
         surName: '',
@@ -33,11 +33,24 @@ export default {
     };
   },
   methods: {
+
     submitForm() {
+      this.formData.productId = this.$route.params.id; // Присваиваем productId текущего круиза из параметров маршрута
+
+      // Отправка данных круиза на сервер
       axios.post('http://localhost:3000/users', this.formData)
-          .then(response => console.log(response))
-          .catch(error => console.log(error))
+          .then(response => {
+            // Логирование ответа от сервера в консоль
+            console.log(response);
+
+            this.$router.push('/account');
+          })
+          .catch(error => {
+            // Логирование ошибки в консоль
+            console.error('Ошибка при бронировании круиза:', error);
+          });
     },
+
 
     scrollToTop() {
       window.scrollTo({
@@ -65,9 +78,9 @@ export default {
     const productId = this.$route.params.id; // Получаем id круиза из параметров маршрута
     axios.get(`http://localhost:3000/products/${productId}`)
         .then(response => {
-          this.productTitle = response.data.title;
-          this.productDate = response.data.cruiseDate;
-          this.productCount = response.data.count;
+          this.title = response.data.title;
+          this.cruiseDate = response.data.cruiseDate;
+          this.count = response.data.count;
         })
         .catch(error => {
           console.error('Ошибка при загрузке круиза:', error);
@@ -110,8 +123,8 @@ export default {
 
   <div class="block_1">
     <div class="info-content">
-      <h3 class="product-title">{{ productTitle }}</h3>
-      <h3 class="product-date">{{ productDate }}</h3>
+      <h3 class="product-title">{{ title }}</h3>
+      <h3 class="product-date">{{ cruiseDate }}</h3>
     </div>
 
     <div class="block_1-images">
@@ -143,7 +156,7 @@ export default {
       </div>
 
       <div class="booking">
-        <h3 class="booking_product-price">от {{ productCount }} ₽/ чел.</h3>
+        <h3 class="booking_product-price">от {{ count }} ₽/ чел.</h3>
         <button  class="btn-forms">Выбрать каюту</button>
       </div>
     </div>
@@ -197,8 +210,6 @@ export default {
 
       </div>
     </div>
-
-
   </div>
 
   <div class="block_5">
@@ -361,6 +372,7 @@ header {
 }
 
 .booking_product-price {
+  width: max-content;
   font-size: 20px;
   font-weight: bold;
   color: #333333;
@@ -510,7 +522,7 @@ header {
 
   .booking{
     padding: 0 16px; /* Уменьшаем внутренние отступы по горизонтали */
-    width: 100%;
+    width: 300px;
     height: auto;
   }
 

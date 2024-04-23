@@ -135,10 +135,15 @@ export default {
           </svg>
           <p class="number">+7 (999) 124-23-45</p>
 
-          <!-- Кнопка "Войти" -->
-          <button v-if="!loggedIn" class="login_button" @click="openModal">Войти</button>
+<!--          &lt;!&ndash; Кнопка "Войти" &ndash;&gt;-->
+<!--          <button v-if="!loggedIn" class="login_button" @click="openModal">Войти</button>-->
+<!--          &lt;!&ndash; Кнопка "Личный кабинет" &ndash;&gt;-->
+<!--          <button v-else class="account_button" @click="goToAccountPage">Личный кабинет</button>-->
+
           <!-- Кнопка "Личный кабинет" -->
-          <button v-else class="account_button" @click="goToAccountPage">Личный кабинет</button>
+          <button v-if="!loggedIn && isAccountPage" class="login_button" @click="openModal">Войти</button>
+          <button v-else-if="loggedIn && isAccountPage" class="account_button" @click="goToAccountPage">Личный кабинет</button>
+
 
         </div>
       </ul>
