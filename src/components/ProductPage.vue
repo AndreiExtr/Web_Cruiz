@@ -372,6 +372,7 @@ header {
 }
 
 .booking_product-price {
+  width: max-content;
   font-size: 20px;
   font-weight: bold;
   color: #333333;
@@ -521,7 +522,7 @@ header {
 
   .booking{
     padding: 0 16px; /* Уменьшаем внутренние отступы по горизонтали */
-    width: 100%;
+    width: 300px;
     height: auto;
   }
 
