@@ -147,7 +147,7 @@
           "type": "integer",
           "description": "Номер каюты"
         },
-        "product_id": {
+        "productId": {
           "type": "object",
           "properties": {
             "id": {

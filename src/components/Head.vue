@@ -67,9 +67,8 @@ export default {
     goToAccountPage() {
       this.$router.push('/account'); // Перенаправляем пользователя на страницу личного кабинета
     },
-
-    goBack() {
-      this.$router.go(-1);
+    goToHomePage() {
+      this.$router.push('/');
     },
     openModal() {
       this.isModalOpen = true; // Открываем модальное окно
@@ -123,7 +122,7 @@ export default {
 
         <!-- Хлебные крошки на странице просмотра круиза -->
         <div v-if="isCruisePage" class="breadcrumbs">
-          <div class="main_page" @click="goBack">Главная</div>
+          <div class="main_page" @click="goToHomePage">Главная</div>
           <span>•</span>
           <p>{{ breadcrumbName }}</p>
         </div>
@@ -135,16 +134,8 @@ export default {
           </svg>
           <p class="number">+7 (999) 124-23-45</p>
 
-<!--          &lt;!&ndash; Кнопка "Войти" &ndash;&gt;-->
-<!--          <button v-if="!loggedIn" class="login_button" @click="openModal">Войти</button>-->
-<!--          &lt;!&ndash; Кнопка "Личный кабинет" &ndash;&gt;-->
-<!--          <button v-else class="account_button" @click="goToAccountPage">Личный кабинет</button>-->
-
-          <!-- Кнопка "Личный кабинет" -->
           <button v-if="!loggedIn && isAccountPage" class="login_button" @click="openModal">Войти</button>
           <button v-else-if="loggedIn && isAccountPage" class="account_button" @click="goToAccountPage">Личный кабинет</button>
-
-
         </div>
       </ul>
     </nav>
