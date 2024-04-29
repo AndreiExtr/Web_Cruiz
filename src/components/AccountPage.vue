@@ -1,4 +1,3 @@
-
 <template>
   <header :class="{ 'sticky': isSticky }">
     <Head :isCruisePage="true" :isAccountPage="false" @logout-success="handleLogoutSuccess"/>
@@ -13,14 +12,14 @@
         <label class="tab-2" for="tab-btn-2">Настройки</label>
         <hr>
         <div class="tab-content" id="content-1">
-          <div v-for="product in products" :key="product.id">
+          <div v-for="user in users" :key="user.id">
             <!-- Отображение информации о круизе -->
             <div class="product-info">
-              <p><strong>Название круиза:</strong> {{ product.title }}</p>
-              <p><strong>Дата круиза:</strong> {{ product.cruiseDate }}</p>
-              <p><strong>Сумма:</strong> {{ product.count }}</p>
-              <p><strong>Количество человек:</strong> {{ product.numberOfPeople }}</p>
-              <p><strong>Номер каюты:</strong> {{ product.cabinNumber }}</p>
+              <p><strong>Название круиза:</strong> {{ user.title }}</p>
+              <p><strong>Дата круиза:</strong> {{ user.cruiseDate }}</p>
+              <p><strong>Сумма:</strong> {{ user.count }}</p>
+              <p><strong>Количество человек:</strong> {{ user.numberOfPeople }}</p>
+              <p><strong>Номер каюты:</strong> {{ user.cabinNumber }}</p>
             </div>
           </div>
         </div>
@@ -48,15 +47,52 @@ export default {
   data() {
     return {
       products: [],
+      users: [],
       isSticky: false,
-      loggedIn: false // Добавляем значение loggedIn
+      loggedIn: false
     };
   },
   mounted() {
-    // Устанавливаем productId в formData
+    // Получаем данные о пользователях
     axios.get('http://localhost:3000/users')
         .then(response => {
-          this.products = response.data;
+          this.users = response.data;
+
+          // Создаем массив промисов для запросов о круизах
+          const usersCount = this.users.length;
+          let completedRequests = 0; // Переменная для отслеживания завершенных запросов
+
+          this.users.forEach((user, index) => {
+            axios.get(`http://localhost:3000/products/${user.productId}`)
+                .then(response => {
+                  // Проверяем статус ответа
+                  if (response.status === 200) {
+                    // Если статус успешный, присваиваем данные о круизе пользователю
+                    user.title = response.data.title;
+                    user.cruiseDate = response.data.cruiseDate;
+                    user.count = response.data.count;
+                  } else {
+                    // Выводим сообщение об ошибке в консоль
+                    console.error('Ошибка при загрузке круиза:', response.statusText);
+                  }
+
+                  completedRequests++;
+
+                  // После завершения всех запросов обновляем состояние компонента
+                  if (completedRequests === usersCount) {
+                    this.users = [...this.users]; // Переопределяем состояние для обновления представления
+                  }
+                })
+                .catch(error => {
+                  console.error('Ошибка при загрузке круиза:', error);
+                  completedRequests++;
+
+                  // После завершения всех запросов обновляем состояние компонента
+                  if (completedRequests === usersCount) {
+                    this.users = [...this.users]; // Переопределяем состояние для обновления представления
+                  }
+                });
+          });
         })
         .catch(error => {
           console.error('Ошибка при загрузке круизов пользователя:', error);
@@ -65,22 +101,23 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
 
+
+
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
   },
   methods:{
     handleLogoutSuccess() {
-      this.loggedIn = false; // Устанавливаем значение loggedIn в false при успешном выходе из аккаунта
+      this.loggedIn = false;
     },
 
     logout() {
-      // Логика для выхода пользователя
-      localStorage.removeItem('loggedIn'); // Удаляем информацию о входе пользователя из localStorage
-      this.$emit('logout-success'); // Вызываем событие logout-success
+      localStorage.removeItem('loggedIn');
+      this.$emit('logout-success');
     },
 
     goToHomePage() {
-      this.$router.push('/'); // Переход на главную страницу
+      this.$router.push('/');
     },
     handleScroll() {
       if (window.pageYOffset > 0) {
@@ -92,7 +129,6 @@ export default {
   }
 }
 </script>
-
 
 
 <style scoped>

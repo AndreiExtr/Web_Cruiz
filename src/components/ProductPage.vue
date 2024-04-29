@@ -22,7 +22,7 @@ export default {
       isSticky: false,
 
       formData: {
-        productId: '',
+        productId: null,
         cabinNumber: '',
         numberOfPeople: '1',
         surName: '',
@@ -36,6 +36,9 @@ export default {
 
     submitForm() {
       this.formData.productId = this.$route.params.id; // Присваиваем productId текущего круиза из параметров маршрута
+      this.formData.title = this.title; // Передаем название круиза
+      this.formData.cruiseDate = this.cruiseDate; // Передаем дату круиза
+      this.formData.count = this.count; // Передаем сумму круиза
 
       // Отправка данных круиза на сервер
       axios.post('http://localhost:3000/users', this.formData)
@@ -50,7 +53,6 @@ export default {
             console.error('Ошибка при бронировании круиза:', error);
           });
     },
-
 
     scrollToTop() {
       window.scrollTo({
@@ -176,37 +178,37 @@ export default {
           <img src="/src/assets/Схема%20палубы.png" alt="Background Image" class="background-imag">
         </div>
 
-          <form @submit.prevent="submitForm">
-            <div class="form-row">
-              <label for="cabin">Номер каюты:</label>
-              <input type="text" v-model="formData.cabinNumber" id="cabin" name="cabin">
+        <form @submit.prevent="submitForm">
+          <div class="form-row">
+            <label for="cabin">Номер каюты:</label>
+            <input type="text" v-model="formData.cabinNumber" id="cabin" name="cabin">
 
-              <label for="quantity">Количество человек:</label>
-              <select v-model="formData.numberOfPeople" id="quantity" name="quantity">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </div>
+            <label for="quantity">Количество человек:</label>
+            <select v-model="formData.numberOfPeople" id="quantity" name="quantity">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
 
-            <div class="form-row">
-              <label for="surname">Фамилия:</label>
-              <input type="text" v-model="formData.surName" id="surname" name="surname">
+          <div class="form-row">
+            <label for="surname">Фамилия:</label>
+            <input type="text" v-model="formData.surName" id="surname" name="surname">
 
-              <label for="name">Имя:</label>
-              <input type="text" v-model="formData.firstName" id="name" name="name">
+            <label for="name">Имя:</label>
+            <input type="text" v-model="formData.firstName" id="name" name="name">
 
-              <label for="patronymic">Отчество:</label>
-              <input type="text" v-model="formData.middleName" id="patronymic" name="patronymic">
-            </div>
+            <label for="patronymic">Отчество:</label>
+            <input type="text" v-model="formData.middleName" id="patronymic" name="patronymic">
+          </div>
 
-            <div class="form-row">
-              <label for="phone">Номер телефона:</label>
-              <input type="tel" v-model="formData.phoneNumber" id="phone" name="phone" pattern="[0-9]{11}">
-            </div>
+          <div class="form-row">
+            <label for="phone">Номер телефона:</label>
+            <input type="tel" v-model="formData.phoneNumber" id="phone" name="phone" pattern="[0-9]{11}">
+          </div>
 
-            <button type="submit" class="btn-forms">Забронировать</button>
-          </form>
+          <button type="submit" class="btn-forms">Забронировать</button>
+        </form>
 
       </div>
     </div>
@@ -238,37 +240,7 @@ export default {
   <Footer />
   <Login :isModalOpen="isModalOpen" @close-modal="closeModal" />
 </template>
-<!--          <form @submit.prevent="submitForm">-->
-<!--            <div class="form-row">-->
-<!--              <label for="cabin">Номер каюты:</label>-->
-<!--              <input type="text" v-model="cabinNumber" id="cabin" name="cabin">-->
 
-<!--              <label for="quantity">Количество человек:</label>-->
-<!--              <select v-model="numberOfPeople" id="quantity" name="quantity">-->
-<!--                <option value="1">1</option>-->
-<!--                <option value="2">2</option>-->
-<!--                <option value="3">3</option>-->
-<!--              </select>-->
-<!--            </div>-->
-
-<!--            <div class="form-row">-->
-<!--              <label for="surname">Фамилия:</label>-->
-<!--              <input type="text" v-model="surName" id="surname" name="surname">-->
-
-<!--              <label for="name">Имя:</label>-->
-<!--              <input type="text" v-model="firstName" id="name" name="name">-->
-
-<!--              <label for="patronymic">Отчество:</label>-->
-<!--              <input type="text" v-model="middleName" id="patronymic" name="patronymic">-->
-<!--            </div>-->
-
-<!--            <div class="form-row">-->
-<!--              <label for="phone">Номер телефона:</label>-->
-<!--              <input type="tel" v-model="phoneNumber" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">-->
-<!--            </div>-->
-
-<!--            <button type="submit" class="btn-forms">Забронировать</button>-->
-<!--          </form>-->
 <style scoped>
 /* ШАПКА */
 header {
