@@ -11,11 +11,6 @@ const routes = [
         component: MainPage
     },
     {
-        path: '/account/:id',
-        name: 'AccountPage',
-        component: AccountPage
-    },
-    {
         path: '/account',
         name: 'Account',
         component: AccountPage,
