@@ -123,7 +123,7 @@ app.post('/users', (req, res) => {
         if (results.length === 0) {
             // Если пользователь с таким номером телефона не найден, добавляем нового пользователя
             const { cabinNumber, numberOfPeople, surName, firstName, middleName, phoneNumber, productId } = req.body;
-            connection.query('INSERT INTO users (cabinNumber, numberOfPeople, surName, firstName, middleName, phoneNumber, productId) VALUES (?, ?, ?, ?, ?, ?)', [cabinNumber, numberOfPeople, surName, firstName, middleName, phoneNumber, productId], (error, results) => {
+            connection.query('INSERT INTO users (cabinNumber, numberOfPeople, surName, firstName, middleName, phoneNumber, productId) VALUES (?, ?, ?, ?, ?, ?, ?)', [cabinNumber, numberOfPeople, surName, firstName, middleName, phoneNumber, productId], (error, results) => {
                 if (error) {
                     console.error('Ошибка при выполнении запроса к базе данных:', error);
                     res.status(500).json({ message: 'Вы с таким номером телефона не зарегистрированы' });
@@ -138,7 +138,6 @@ app.post('/users', (req, res) => {
         }
     });
 });
-
 
 
 const port = 3000;
