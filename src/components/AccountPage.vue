@@ -224,6 +224,9 @@ hr{
 }
 
 .product-info{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   width: 100%;
   height: auto;
   background-color: #f6f6f6;
@@ -231,5 +234,9 @@ hr{
   border-radius: 4px;
   border: 2px solid #d9d9d9;
   margin-bottom: 16px;
+}
+
+.product-info p{
+  margin: 0;
 }
 </style>
