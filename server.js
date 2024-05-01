@@ -36,10 +36,6 @@ connection.connect((err) => {
 // Подключаем статический middleware для обслуживания файла Swagger JSON
 app.use('/swagger.json', express.static(path.resolve('swagger.json')));
 
-
-
-
-
 // Маршрут для получения списка пользователей
 app.get('/users', (req, res) => {
     connection.query('SELECT * FROM users', (error, results) => {
@@ -136,6 +132,30 @@ app.post('/users', (req, res) => {
             // Если пользователь с таким номером телефона уже существует, возвращаем соответствующий ответ
             res.json({ isValid: true, message: 'Номер телефона найден в базе данных', user: results[0] });
         }
+    });
+});
+
+// Обработчик для добавления круиза
+app.post('/products', (req, res) => {
+    // Проверяем наличие данных в теле запроса
+    if (!req.body || !req.body.productId || !req.body.user || !req.body.user.userId) {
+        res.status(400).json({ message: 'Неверный формат запроса' });
+        return;
+    }
+
+    const { productId, user } = req.body;
+    const userId = user.userId;
+
+    // Выполняем запрос к базе данных для добавления круиза
+    connection.query('INSERT INTO cruises (productId, userId) VALUES (?, ?)', [productId, userId], (error, results) => {
+        if (error) {
+            console.error('Ошибка при выполнении запроса к базе данных:', error);
+            res.status(500).json({ message: 'Ошибка при добавлении круиза' });
+            return;
+        }
+
+        // Отправляем ответ об успешном добавлении круиза
+        res.status(201).json({ message: 'Круиз успешно добавлен', cruiseId: results.insertId });
     });
 });
 
