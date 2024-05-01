@@ -146,27 +146,6 @@
         "cabinNumber": {
           "type": "integer",
           "description": "Номер каюты"
-        },
-        "productId": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer",
-              "description": "Идентификатор продукта"
-            },
-            "title": {
-              "type": "string",
-              "description": "Название круиза"
-            },
-            "cruiseDate": {
-              "type": "string",
-              "description": "даты начало и окончание круиза"
-            },
-            "count": {
-              "type": "integer",
-              "description": "Стоимость круиза"
-            }
-          }
         }
       }
     }

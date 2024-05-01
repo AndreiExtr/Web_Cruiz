@@ -33,7 +33,6 @@ export default {
     };
   },
   methods: {
-
     submitForm() {
       this.formData.productId = this.$route.params.id; // Присваиваем productId текущего круиза из параметров маршрута
       this.formData.title = this.title; // Передаем название круиза
@@ -513,3 +512,57 @@ header {
 }
 
 </style>
+
+<!--// submitForm() {-->
+<!--//   // Присваиваем productId текущего круиза из параметров маршрута-->
+<!--//   this.formData.productId = this.$route.params.id;-->
+<!--//   // Генерируем уникальный userId для неавторизованных пользователей-->
+<!--//   this.formData.userId = localStorage.getItem('userId') || Date.now().toString();-->
+<!--//   // Передаем название круиза-->
+<!--//   this.formData.title = this.title;-->
+<!--//   // Передаем дату круиза-->
+<!--//   this.formData.cruiseDate = this.cruiseDate;-->
+<!--//   // Передаем сумму круиза-->
+<!--//   this.formData.count = this.count;-->
+<!--//-->
+<!--//   // Отправка данных круиза на сервер-->
+<!--//   axios.post('http://localhost:3000/products', this.formData)-->
+<!--//       .then(response => {-->
+<!--//         // Логирование ответа от сервера в консоль-->
+<!--//         console.log(response);-->
+<!--//-->
+<!--//         // Если бронирование прошло успешно (код 201), выполните вход в приложение-->
+<!--//         if (response.status === 201) {-->
+<!--//           // Сохраняем информацию о входе пользователя в localStorage-->
+<!--//           localStorage.setItem('loggedIn', 'true');-->
+<!--//           // Перенаправляем пользователя на страницу аккаунта-->
+<!--//           this.$router.push('/account');-->
+<!--//         } else {-->
+<!--//           console.error('Ошибка при бронировании круиза:', response.data.message);-->
+<!--//         }-->
+<!--//       })-->
+<!--//       .catch(error => {-->
+<!--//         // Логирование ошибки в консоль-->
+<!--//         console.error('Ошибка при бронировании круиза:', error);-->
+<!--//       });-->
+<!--// },-->
+
+<!--// submitForm() {-->
+<!--//   this.formData.productId = this.$route.params.id; // Присваиваем productId текущего круиза из параметров маршрута-->
+<!--//   this.formData.title = this.title; // Передаем название круиза-->
+<!--//   this.formData.cruiseDate = this.cruiseDate; // Передаем дату круиза-->
+<!--//   this.formData.count = this.count; // Передаем сумму круиза-->
+<!--//-->
+<!--//   // Отправка данных круиза на сервер-->
+<!--//   axios.post('http://localhost:3000/users', this.formData)-->
+<!--//       .then(response => {-->
+<!--//         // Логирование ответа от сервера в консоль-->
+<!--//         console.log(response);-->
+<!--//-->
+<!--//         this.$router.push('/account');-->
+<!--//       })-->
+<!--//       .catch(error => {-->
+<!--//         // Логирование ошибки в консоль-->
+<!--//         console.error('Ошибка при бронировании круиза:', error);-->
+<!--//       });-->
+<!--// },-->
