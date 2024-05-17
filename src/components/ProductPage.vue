@@ -415,6 +415,8 @@ header {
 }
 
 .route h3{
+  font-size: 16px;
+  color: #3b4151;
   margin-bottom: 0;
 }
 

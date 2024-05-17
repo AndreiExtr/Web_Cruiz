@@ -114,9 +114,9 @@ export default {
           <li><a href="#">ГЛАВНАЯ</a></li>
           <li><a href="#section1" onclick="scrollToSection(event)">О НАС</a></li>
           <li><a href="#section2" onclick="scrollToSection(event)">КРУИЗЫ</a></li>
-          <li><a href="#section3" onclick="scrollToSection(event)">СПЕЦПРЕДЛОЖЕНИЯ</a></li>
+<!--          <li><a href="#section3" onclick="scrollToSection(event)">СПЕЦПРЕДЛОЖЕНИЯ</a></li>-->
           <li><a href="#section4" onclick="scrollToSection(event)">НОВОСТИ</a></li>
-          <li><a href="#section5" onclick="scrollToSection(event)">КОНТАКТЫ</a></li>
+<!--          <li><a href="#section5" onclick="scrollToSection(event)">КОНТАКТЫ</a></li>-->
         </div>
         <!-- Ваш код для логотипа и разделов -->
 

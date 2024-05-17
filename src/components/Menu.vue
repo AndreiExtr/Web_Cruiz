@@ -40,9 +40,9 @@ export default {
         <li><a href="#">ГЛАВНАЯ</a></li>
         <li><a href="#section1" @click="scrollToSection($event)">О НАС</a></li>
         <li><a href="#section2" @click="scrollToSection($event)">КРУИЗЫ</a></li>
-        <li><a href="#section3" @click="scrollToSection($event)">СПЕЦПРЕДЛОЖЕНИЯ</a></li>
+<!--        <li><a href="#section3" @click="scrollToSection($event)">СПЕЦПРЕДЛОЖЕНИЯ</a></li>-->
         <li><a href="#section4" @click="scrollToSection($event)">НОВОСТИ</a></li>
-        <li><a href="#section5" @click="scrollToSection($event)">КОНТАКТЫ</a></li>
+<!--        <li><a href="#section5" @click="scrollToSection($event)">КОНТАКТЫ</a></li>-->
       </ul>
     </div>
 
