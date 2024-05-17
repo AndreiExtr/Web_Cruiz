@@ -33,7 +33,6 @@ export default {
     };
   },
   methods: {
-
     submitForm() {
       this.formData.productId = this.$route.params.id; // Присваиваем productId текущего круиза из параметров маршрута
       this.formData.title = this.title; // Передаем название круиза
@@ -134,9 +133,9 @@ export default {
         <img src="/src/assets/6.jpg" alt="Background Image" class="background-imag">
       </div>
       <div class="image-grid">
-        <img src="/src/assets/2.png" alt="Background Image" class="background-image1">
-        <img src="/src/assets/2.png" alt="Background Image" class="background-image1">
-        <img src="/src/assets/2.png" alt="Background Image" class="background-image1">
+        <img src="/src/assets/image%204.png" alt="Background Image" class="background-image1">
+        <img src="/src/assets/image%203.png" alt="Background Image" class="background-image1">
+        <img src="/src/assets/image%201.png" alt="Background Image" class="background-image1">
         <img src="/src/assets/2.png" alt="Background Image" class="background-image1">
       </div>
     </div>
@@ -167,8 +166,37 @@ export default {
   <div class="block_3">
     <div class="block_3-route">
       <h2 class="title">Маршруты</h2>
+      <div class="route">
+        <h3>День 1: Прибытие и знакомство с городом</h3>
+        <p>Добро пожаловать! В первый день мы встретим вас в аэропорту и доставим в отель. После короткого отдыха начнется обзорная экскурсия по городу, где вы увидите главные достопримечательности и узнаете интересные факты о его истории.</p>
+      </div>
+      <div class="route">
+        <h3>День 2: Исторический центр и музеи</h3>
+        <p>Сегодня мы посетим исторический центр города. Прогулка по старым улочкам приведет нас к главным историческим памятникам и музеям, где вы сможете глубже погрузиться в богатое прошлое этого места.</p>
+      </div>
+      <div class="route">
+        <h3>День 3: Природа и парки</h3>
+        <p>Третий день будет посвящен природе. Мы отправимся в самые красивые парки и заповедники, насладимся прогулками на свежем воздухе и увидим удивительные природные достопримечательности.</p>
+      </div>
+      <div class="route">
+        <h3>День 4: Культурная программа</h3>
+        <p>Этот день посвящен культуре. Мы посетим театры, галереи и концертные залы, где вы сможете насладиться искусством и музыкой. Вечером вас ждет незабываемый спектакль или концерт.</p>
+      </div>
+      <div class="route">
+        <h3>День 5: Пригородные экскурсии</h3>
+        <p>Мы отправимся за город, чтобы увидеть живописные окрестности и посетить интересные места, такие как старинные замки, винодельни или живописные деревни.</p>
+      </div>
+      <div class="route">
+        <h3>День 6: Активный отдых</h3>
+        <p>Для любителей активного отдыха мы подготовили увлекательные мероприятия: пешие прогулки, велосипедные туры или даже водные виды спорта. Это отличный способ зарядиться энергией и получить яркие впечатления.</p>
+      </div>
+      <div class="route">
+        <h3>День 7: Прощание и отъезд</h3>
+        <p>Последний день нашей экскурсии. У вас будет время на покупки и самостоятельные прогулки по городу. Затем мы организуем трансфер в аэропорт. Спасибо за то, что были с нами, и до новых встреч!</p>
+      </div>
     </div>
   </div>
+
 
   <div class="block_4">
     <div class="block_4-choice">
@@ -308,8 +336,8 @@ header {
 .image-grid {
   flex: 1; /* Чтобы занимал оставшееся пространство справа */
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Два столбца */
-  grid-template-rows: repeat(2, auto); /* Две строки */
+  grid-template-columns: 2fr 2fr; /* Два столбца с неравномерными размерами */
+  grid-template-rows: 2fr 2fr; /* Две строки с неравномерными размерами */
   grid-gap: 8px;
 }
 .image-grid img {
@@ -374,11 +402,24 @@ header {
   background-color: #EDF5FF;
 }
 
+.block_3-route{
+  display: flex;
+  flex-direction: column;
+}
+
 .block_3-route {
   padding: 0 150px  64px 150px ;
   display: flex; /* Располагаем дочерние элементы внутри .block горизонтально */
   justify-content: space-between; /* Равномерно распределяем пространство между дочерними элементами */
   flex-wrap: nowrap; /* Разрешаем элементам переноситься на новую строку при нехватке места */
+}
+
+.route h3{
+  margin-bottom: 0;
+}
+
+.route p{
+  margin-top: 8px;
 }
 /* БЛОК 3 */
 
@@ -481,6 +522,14 @@ header {
     align-items: center;
   }
 
+  .product-title{
+    padding: 32px 24px 0 24px;
+  }
+
+  .product-date{
+    padding: 32px 24px 0 24px;
+  }
+
   .block_2-description {
     padding: 48px 24px; /* Уменьшаем отступы */
     flex-direction: column; /* Располагаем дочерние элементы в столбец при адаптивном разрешении */
@@ -493,7 +542,6 @@ header {
   }
 
   .booking{
-    padding: 0 16px; /* Уменьшаем внутренние отступы по горизонтали */
     width: 300px;
     height: auto;
   }
@@ -510,6 +558,75 @@ header {
     margin-right: 0;
     margin-bottom: 8px;
   }
+
+  .block_3-route{
+    padding: 48px 24px;
+    flex-direction: column;
+  }
+
+  .block_4-choice{
+    padding: 48px 24px;
+    flex-direction: column;
+  }
+
+  .block_5-offers{
+    padding: 48px 24px;
+    flex-direction: column;
+  }
 }
 
 </style>
+
+<!--// submitForm() {-->
+<!--//   // Присваиваем productId текущего круиза из параметров маршрута-->
+<!--//   this.formData.productId = this.$route.params.id;-->
+<!--//   // Генерируем уникальный userId для неавторизованных пользователей-->
+<!--//   this.formData.userId = localStorage.getItem('userId') || Date.now().toString();-->
+<!--//   // Передаем название круиза-->
+<!--//   this.formData.title = this.title;-->
+<!--//   // Передаем дату круиза-->
+<!--//   this.formData.cruiseDate = this.cruiseDate;-->
+<!--//   // Передаем сумму круиза-->
+<!--//   this.formData.count = this.count;-->
+<!--//-->
+<!--//   // Отправка данных круиза на сервер-->
+<!--//   axios.post('http://localhost:3000/products', this.formData)-->
+<!--//       .then(response => {-->
+<!--//         // Логирование ответа от сервера в консоль-->
+<!--//         console.log(response);-->
+<!--//-->
+<!--//         // Если бронирование прошло успешно (код 201), выполните вход в приложение-->
+<!--//         if (response.status === 201) {-->
+<!--//           // Сохраняем информацию о входе пользователя в localStorage-->
+<!--//           localStorage.setItem('loggedIn', 'true');-->
+<!--//           // Перенаправляем пользователя на страницу аккаунта-->
+<!--//           this.$router.push('/account');-->
+<!--//         } else {-->
+<!--//           console.error('Ошибка при бронировании круиза:', response.data.message);-->
+<!--//         }-->
+<!--//       })-->
+<!--//       .catch(error => {-->
+<!--//         // Логирование ошибки в консоль-->
+<!--//         console.error('Ошибка при бронировании круиза:', error);-->
+<!--//       });-->
+<!--// },-->
+
+<!--// submitForm() {-->
+<!--//   this.formData.productId = this.$route.params.id; // Присваиваем productId текущего круиза из параметров маршрута-->
+<!--//   this.formData.title = this.title; // Передаем название круиза-->
+<!--//   this.formData.cruiseDate = this.cruiseDate; // Передаем дату круиза-->
+<!--//   this.formData.count = this.count; // Передаем сумму круиза-->
+<!--//-->
+<!--//   // Отправка данных круиза на сервер-->
+<!--//   axios.post('http://localhost:3000/users', this.formData)-->
+<!--//       .then(response => {-->
+<!--//         // Логирование ответа от сервера в консоль-->
+<!--//         console.log(response);-->
+<!--//-->
+<!--//         this.$router.push('/account');-->
+<!--//       })-->
+<!--//       .catch(error => {-->
+<!--//         // Логирование ошибки в консоль-->
+<!--//         console.error('Ошибка при бронировании круиза:', error);-->
+<!--//       });-->
+<!--// },-->
