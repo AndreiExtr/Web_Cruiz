@@ -2,12 +2,9 @@ import express from 'express';
 import path from 'path';
 import mysql from 'mysql';
 import bodyParser from 'body-parser';
-import axios from "axios";
 
 const app = express();
 app.use(bodyParser.json());
-
-
 
 
 app.use((req, res, next) => {
@@ -35,9 +32,6 @@ connection.connect((err) => {
 
 // Подключаем статический middleware для обслуживания файла Swagger JSON
 app.use('/swagger.json', express.static(path.resolve('swagger.json')));
-
-
-
 
 
 // Маршрут для получения списка пользователей
@@ -68,8 +62,6 @@ app.get('/users/:id', (req, res) => {
         res.json(results[0]);
     });
 });
-
-
 
 
 // Маршрут для получения списка товаров
