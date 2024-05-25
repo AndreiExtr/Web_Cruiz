@@ -33,10 +33,7 @@ connection.connect((err) => {
 // Подключаем статический middleware для обслуживания файла Swagger JSON
 app.use('/swagger.json', express.static(path.resolve('swagger.json')));
 
-<<<<<<< HEAD
-=======
 
->>>>>>> test_v1.1
 // Маршрут для получения списка пользователей
 app.get('/users', (req, res) => {
     connection.query('SELECT * FROM users', (error, results) => {
